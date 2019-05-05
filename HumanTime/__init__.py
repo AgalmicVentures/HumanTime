@@ -137,7 +137,7 @@ def parseTimestamp(s):
 			return datetime.datetime.strptime(s, format)
 		except ValueError as e:
 			pass
-	raise e
+	raise ValueError('Invalid timestamp: "%s"' % str(s))
 
 def now(t=None):
 	"""
@@ -224,7 +224,7 @@ def parseTimeTokens(ts):
 			return keyword()
 		return parseTimestamp(t)
 	#D after/etc. T
-	for i in [1, 2]:
+	for i in range(1, min(3, len(ts))):
 		sign = PREPOSITION_SIGNS.get(ts[i])
 		if sign:
 			break

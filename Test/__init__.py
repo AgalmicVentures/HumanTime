@@ -47,6 +47,11 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertLessEqual(t1, now)
 		self.assertLessEqual(now, t2)
 
+		nowT2 = HumanTime.now(t=t2)
+		nowT1 = HumanTime.now(t=t1)
+		self.assertEqual(t1, nowT1)
+		self.assertEqual(t2, nowT2)
+
 	def test_noon(self):
 		noon = HumanTime.noon()
 		self.assertEqual(noon.hour, 12)
@@ -79,6 +84,18 @@ class HumanTimeTest(unittest.TestCase):
 		with self.assertRaises(ValueError):
 			HumanTime.parseTime('')
 
+	def test_parseTime_invalid(self):
+		with self.assertRaises(ValueError):
+			HumanTime.parseTime('asdf')
+		with self.assertRaises(ValueError):
+			HumanTime.parseTime('1 year asdf now')
+		with self.assertRaises(ValueError):
+			HumanTime.parseTime('now now')
+		with self.assertRaises(ValueError):
+			HumanTime.parseTime('after now')
+		with self.assertRaises(ValueError):
+			HumanTime.parseTime('1 after now')
+
 	def test_parseTime(self):
 		t1 = datetime.datetime.now()
 		now = HumanTime.parseTime('now')
@@ -86,3 +103,12 @@ class HumanTimeTest(unittest.TestCase):
 
 		self.assertLessEqual(t1, now)
 		self.assertLessEqual(now, t2)
+
+		self.assertEqual(HumanTime.parseTime('1 year after 2019-2-1'), datetime.datetime(2020, 2, 1))
+		self.assertEqual(HumanTime.parseTime('12 months after 2019-2-1'), datetime.datetime(2020, 2, 1))
+
+		self.assertEqual(HumanTime.parseTime('1 year after 2020-2-28'), datetime.datetime(2021, 2, 28))
+		self.assertEqual(HumanTime.parseTime('12 months after 2020-2-28'), datetime.datetime(2021, 2, 28))
+
+		self.assertEqual(HumanTime.parseTime('1 year after 2020-2-29'), datetime.datetime(2021, 2, 28))
+		self.assertEqual(HumanTime.parseTime('12 months after 2020-2-29'), datetime.datetime(2021, 2, 28))
