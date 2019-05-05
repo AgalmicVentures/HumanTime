@@ -4,6 +4,12 @@ import datetime
 ##### Common Helpers #####
 
 def tokenize(s):
+	"""
+	Tokenizes a human time string for parsing.
+
+	:param s: str Input
+	:return: list String tokens
+	"""
 	tokens = [
 		token
 		for token in (
@@ -70,6 +76,12 @@ UNITS = {
 }
 
 def parseDurationTokens(ts):
+	"""
+	Parses a duration from some tokens.
+
+	:param ts: list String tokens
+	:return: datetime.timedelta
+	"""
 	n = len(ts)
 	if n == 0:
 		raise ValueError('Invalid duration string - no tokens')
@@ -91,12 +103,24 @@ def parseDurationTokens(ts):
 	raise ValueError('Invalid duration string')
 
 def parseDuration(s):
+	"""
+	Parses a duration from a human string.
+
+	:param s: str Input
+	:return: datetime.timedelta
+	"""
 	ts = tokenize(s)
 	return parseDurationTokens(ts)
 
 ##### Times #####
 
 def parseTimestamp(s):
+	"""
+	Parses a timestamp such as 2019-04-29.
+
+	:param s: str Input
+	:return: datetime.datetime
+	"""
 	formats = [
 		'%Y',
 		'%Y/%m',
@@ -111,23 +135,53 @@ def parseTimestamp(s):
 	for format in formats:
 		try:
 			return datetime.datetime.strptime(s, format)
-		except ValueError:
+		except ValueError as e:
 			pass
-	return None
+	raise e
 
 def now(t=None):
+	"""
+	Returns now, or the "current" time (allowing relative calls).
+
+	:param t: datetime.datetime Optional current time for relative calls.
+	:return: datetime.datetime
+	"""
 	return datetime.datetime.now() if t is None else t
 
 def noon(t=None):
+	"""
+	Returns today at 12:00.
+
+	:param t: datetime.datetime Optional current time for relative calls.
+	:return: datetime.datetime
+	"""
 	return now(t).replace(hour=12, minute=0, second=0, microsecond=0)
 
 def today(t=None):
+	"""
+	Returns today at 0:00.
+
+	:param t: datetime.datetime Optional current time for relative calls.
+	:return: datetime.datetime
+	"""
 	return now(t).replace(hour=0, minute=0, second=0, microsecond=0)
 
 def tomorrow(t=None):
+	"""
+	Returns tomorrow at 00:00.
+
+	:param t: datetime.datetime Optional current time for relative calls.
+	:return: datetime.datetime
+	"""
 	return today(t) + DAY
 
 def yesterday(t=None):
+	"""
+	Returns yeseterday at 00:00.
+
+	:param t: datetime.datetime Optional current time for relative calls.
+	:return: datetime.datetime
+	"""
 	return today(t) - DAY
 
 KEYWORDS = {
@@ -151,6 +205,12 @@ PREPOSITION_SIGNS = {
 }
 
 def parseTimeTokens(ts):
+	"""
+	Parses a time from some tokens.
+
+	:param ts: list String tokens
+	:return: datetime.datetime
+	"""
 	#TODO: this/next/last
 	#TODO: business days
 	#TODO: of the month
@@ -198,5 +258,11 @@ def parseTimeTokens(ts):
 	raise ValueError('Invalid time string')
 
 def parseTime(s):
+	"""
+	Parses a time from a human string.
+
+	:param s: str Input
+	:return: datetime.timedelta
+	"""
 	ts = tokenize(s)
 	return parseTimeTokens(ts)
