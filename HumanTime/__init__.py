@@ -234,14 +234,16 @@ def parseTimeTokens(ts):
 		count = int(ts[0]) if len(ts) > 1 else 1
 		unit = durationTokens[-1]
 		if unit in {'mo', 'month', 'months'}:
-			yearCount = (t0.month - 1 + count) // 12
-			newYear = year=t0.year + sign * yearCount
-			newMonth = (t0.month - 1 + count) % 12 + 1
+			deltaMonth = t0.month - 1 + sign * count
+			yearCount = deltaMonth // 12
+			newYear = t0.year + yearCount
+			newMonth = deltaMonth % 12 + 1
+			newDay = min(t0.day, [31, 29, 31, 30, 31, 30, 31, 30, 30, 31, 30, 31][newMonth - 1])
 			try:
-				return t0.replace(year=newYear, month=newMonth)
+				return t0.replace(year=newYear, month=newMonth, day=newDay)
 			except ValueError:
 				#Handle Feb 29 specially
-				if newMonth == 2 and t0.day == 29:
+				if newMonth == 2 and newDay == 29:
 					return t0.replace(year=newYear, month=newMonth, day=28)
 				raise
 		elif unit in {'y', 'yr', 'yrs', 'year', 'years'}:

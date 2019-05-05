@@ -104,11 +104,25 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertLessEqual(t1, now)
 		self.assertLessEqual(now, t2)
 
+		#Basic month, year offsets
 		self.assertEqual(HumanTime.parseTime('1 year after 2019-2-1'), datetime.datetime(2020, 2, 1))
 		self.assertEqual(HumanTime.parseTime('12 months after 2019-2-1'), datetime.datetime(2020, 2, 1))
 
+		self.assertEqual(HumanTime.parseTime('1 year before 2020-2-28'), datetime.datetime(2019, 2, 28))
 		self.assertEqual(HumanTime.parseTime('1 year after 2020-2-28'), datetime.datetime(2021, 2, 28))
 		self.assertEqual(HumanTime.parseTime('12 months after 2020-2-28'), datetime.datetime(2021, 2, 28))
 
+		#Max day of month
+		self.assertEqual(HumanTime.parseTime('1 month before 2018-1-31'), datetime.datetime(2017, 12, 31))
+		self.assertEqual(HumanTime.parseTime('1 month after 2018-1-31'), datetime.datetime(2018, 2, 28))
+		self.assertEqual(HumanTime.parseTime('2 months after 2018-1-31'), datetime.datetime(2018, 3, 31))
+		self.assertEqual(HumanTime.parseTime('3 months after 2018-1-31'), datetime.datetime(2018, 4, 30))
+		self.assertEqual(HumanTime.parseTime('4 months after 2018-1-31'), datetime.datetime(2018, 5, 31))
+
+		#Special handling for 2-29
+		self.assertEqual(HumanTime.parseTime('1 month after 2020-1-31'), datetime.datetime(2020, 2, 29))
+		self.assertEqual(HumanTime.parseTime('1 year before 2020-2-29'), datetime.datetime(2019, 2, 28))
 		self.assertEqual(HumanTime.parseTime('1 year after 2020-2-29'), datetime.datetime(2021, 2, 28))
 		self.assertEqual(HumanTime.parseTime('12 months after 2020-2-29'), datetime.datetime(2021, 2, 28))
+		self.assertEqual(HumanTime.parseTime('4 years after 2020-2-29'), datetime.datetime(2024, 2, 29))
+		self.assertEqual(HumanTime.parseTime('48 months after 2020-2-29'), datetime.datetime(2024, 2, 29))
