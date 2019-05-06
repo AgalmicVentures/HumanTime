@@ -26,7 +26,7 @@ with open('README.md', 'r') as readmeFile:
 
 setuptools.setup(
     name='HumanTime',
-    version='0.0.1',
+    version='0.0.2',
     author='Ian Hutchinson',
     author_email='ihutchinson@agalmicventures.com',
     description='Time for humans in Python',
@@ -38,6 +38,7 @@ setuptools.setup(
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
+        'Natural Language :: English',
         'Operating System :: OS Independent',
     ],
 )
