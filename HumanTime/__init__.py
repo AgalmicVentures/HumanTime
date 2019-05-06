@@ -204,16 +204,76 @@ def yesterday(t=None):
 	"""
 	return today(t) - DAY
 
+#Values returned by .weekday()
+MONDAY = 0
+TUESDAY = 1
+WEDNESDAY = 2
+THURSDAY = 3
+FRIDAY = 4
+SATURDAY = 5
+SUNDAY = 6
+
+def dayOfWeekOnOrAfter(t, dayOfWeek):
+	"""
+	Returns the Monday/Tuesday/etc. on or after the given date.
+
+	:param t: datetime.datetime
+	:param dayOfWeek: int returned by .weekday()
+	:return: datetime.datetime
+	"""
+	if dayOfWeek < 0 or 7 <= dayOfWeek:
+		raise ValueError('Day of week must be in [0, 6] (MONDAY-SUNDAY)')
+	t = today(t)
+	while t.weekday() != dayOfWeek:
+		t += datetime.timedelta(days=1)
+	return t
+
+def dayOfWeekOnOrBefore(t, dayOfWeek):
+	"""
+	Returns the Monday/Tuesday/etc. on or before the given date.
+
+	:param t: datetime.datetime
+	:param dayOfWeek: int returned by .weekday()
+	:return: datetime.datetime
+	"""
+	if dayOfWeek < 0 or 7 <= dayOfWeek:
+		raise ValueError('Day of week must be in [0, 6] (MONDAY-SUNDAY)')
+	t = today(t)
+	while t.weekday() != dayOfWeek:
+		t -= datetime.timedelta(days=1)
+	return t
+
+DAY_OF_WEEK_ON_OR_AFTER = {}
+DAY_OF_WEEK_ON_OR_BEFORE = {}
+for dayOfWeek, names in [
+			(MONDAY, ['mon', 'monday']),
+			(TUESDAY, ['tue', 'tues', 'tuesday']),
+			(WEDNESDAY, ['wed', 'weds', 'wednesday']),
+			(THURSDAY, ['thu', 'thur', 'thurs', 'thursday']),
+			(FRIDAY, ['fri', 'friday']),
+			(SATURDAY, ['sat', 'saturday']),
+			(SUNDAY, ['sun', 'sunday']),
+		]:
+	afterFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrAfter(t, d)
+	beforeFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrBefore(t, d)
+	for name in names:
+		DAY_OF_WEEK_ON_OR_AFTER[name] = afterFunction
+		DAY_OF_WEEK_ON_OR_BEFORE[name] = beforeFunction
+
 KEYWORDS = {
+	#Basics
 	'noon': noon,
 	'now': now,
 	'today': today,
 	'tomorrow': tomorrow,
 	'yesterday': yesterday,
-	#TODO: days of week
+
+	#Days of the week are added below
+
 	#TODO: week day, weekend
 	#TODO: holidays
 }
+KEYWORDS.update(DAY_OF_WEEK_ON_OR_AFTER)
 
 PREPOSITION_SIGNS = {
 	'after': 1,
@@ -231,9 +291,11 @@ def parseTimeTokens(ts):
 	:param ts: list String tokens
 	:return: datetime.datetime
 	"""
+	#TODO: ago
 	#TODO: this/next/last
 	#TODO: business days
 	#TODO: of the month
+	#TODO: at noon/this time/etc.
 	n = len(ts)
 	if n == 0:
 		raise ValueError('Invalid time string - no tokens')
@@ -243,16 +305,25 @@ def parseTimeTokens(ts):
 		if keyword is not None:
 			return keyword()
 		return parseTimestamp(t)
+
 	#D after/etc. T
 	for i in range(1, min(3, len(ts))):
 		sign = PREPOSITION_SIGNS.get(ts[i])
 		if sign:
 			break
+
 	if sign is not None:
 		t0 = parseTimeTokens(ts[i+1:])
 		durationTokens = ts[:i]
-		count = int(ts[0]) if len(ts) > 1 else 1
 		unit = durationTokens[-1]
+
+		if len(durationTokens) == 1:
+			weekday = (DAY_OF_WEEK_ON_OR_AFTER if sign == 1 else DAY_OF_WEEK_ON_OR_BEFORE).get(unit)
+			if weekday is not None:
+				#This is a strict after so add 1 day
+				return weekday(t=t0 + sign * DAY)
+
+		count = int(ts[0]) if len(ts) > 1 else 1
 		if unit in {'mo', 'month', 'months'}:
 			deltaMonth = t0.month - 1 + sign * count
 			yearCount = deltaMonth // 12
@@ -266,6 +337,7 @@ def parseTimeTokens(ts):
 				if newMonth == 2 and newDay == 29:
 					return t0.replace(year=newYear, month=newMonth, day=28)
 				raise
+
 		elif unit in {'y', 'yr', 'yrs', 'year', 'years'}:
 			newYear = t0.year + sign * count
 			try:
@@ -275,6 +347,7 @@ def parseTimeTokens(ts):
 				if t0.month == 2 and t0.day == 29:
 					return t0.replace(year=newYear, day=28)
 				raise
+
 		duration = parseDurationTokens(durationTokens)
 		return t0 + sign * duration
 	raise ValueError('Invalid time string')

@@ -11,10 +11,12 @@ Sidestep tedious and error-prone code in favor of a simple, English-based DSL fo
 	2019-05-05 12:00:00.000000 | noon
 	2019-05-04 00:00:00.000000 | yesterday
 	2019-05-06 00:00:00.000000 | tomorrow
+	2019-05-08 00:00:00.000000 | Wednesday
 	2019-05-05 22:32:28.493048 | 3 hours from now
 	2019-05-05 22:31:28.493048 | 1 minute before 3 hours from now
 	2019-04-30 00:00:00.000000 | 3 months after 2019-1-31
 	2021-02-28 00:00:00.000000 | 1 year after 2020-02-29
+	2019-06-16 00:00:00.000000 | 1 month after Thurs after 2019-5-9
 
 ## Installation
 To install, simply use `pip`:
@@ -39,6 +41,12 @@ Behold the simplicity and elegance of `HumanTime`:
 	datetime.datetime(2018, 12, 31, 0, 0)
 	>>> HumanTime.parseTime('1 month after 20200131')
 	datetime.datetime(2020, 2, 29, 0, 0)
+	>>> HumanTime.parseTime('Tuesday')
+	datetime.datetime(2019, 5, 7, 0, 0)
+	>>> HumanTime.parseTime('wed')
+	datetime.datetime(2019, 5, 8, 0, 0)
+	>>> HumanTime.parseTime('Thurs after 2019-5-9')
+	datetime.datetime(2019, 5, 16, 0, 0)
 
 ## Development
 

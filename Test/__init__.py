@@ -100,6 +100,17 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(yesterday.second, 0)
 		self.assertEqual(yesterday.microsecond, 0)
 
+	def test_dayOfWeekOnOrAfter(self):
+		self.assertEqual(HumanTime.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 5), HumanTime.SUNDAY), datetime.datetime(2019, 5, 5))
+		self.assertEqual(HumanTime.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 5), HumanTime.MONDAY), datetime.datetime(2019, 5, 6))
+
+		self.assertEqual(HumanTime.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 6), HumanTime.SUNDAY), datetime.datetime(2019, 5, 12))
+		self.assertEqual(HumanTime.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 6), HumanTime.MONDAY), datetime.datetime(2019, 5, 6))
+
+	def test_dayOfWeekOnOrBefore(self):
+		self.assertEqual(HumanTime.dayOfWeekOnOrBefore(datetime.datetime(2019, 5, 6), HumanTime.SUNDAY), datetime.datetime(2019, 5, 5))
+		self.assertEqual(HumanTime.dayOfWeekOnOrBefore(datetime.datetime(2019, 5, 6), HumanTime.MONDAY), datetime.datetime(2019, 5, 6))
+
 	def test_parseTime_empty(self):
 		with self.assertRaises(ValueError):
 			HumanTime.parseTime('')
@@ -124,6 +135,7 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertLessEqual(t1, now)
 		self.assertLessEqual(now, t2)
 
+	def test_parseTime_offsets(self):
 		#Basic month, year offsets
 		self.assertEqual(HumanTime.parseTime('1 year after 2019-2-1'), datetime.datetime(2020, 2, 1))
 		self.assertEqual(HumanTime.parseTime('12 months after 2019-2-1'), datetime.datetime(2020, 2, 1))
@@ -132,6 +144,7 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseTime('1 year after 2020-2-28'), datetime.datetime(2021, 2, 28))
 		self.assertEqual(HumanTime.parseTime('12 months after 2020-2-28'), datetime.datetime(2021, 2, 28))
 
+	def test_parseTime_maxDayOfMonth(self):
 		#Max day of month
 		self.assertEqual(HumanTime.parseTime('1 month before 2018-1-31'), datetime.datetime(2017, 12, 31))
 		self.assertEqual(HumanTime.parseTime('1 month after 2018-1-31'), datetime.datetime(2018, 2, 28))
@@ -139,6 +152,7 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseTime('3 months after 2018-1-31'), datetime.datetime(2018, 4, 30))
 		self.assertEqual(HumanTime.parseTime('4 months after 2018-1-31'), datetime.datetime(2018, 5, 31))
 
+	def test_parseTime_feb29(self):
 		#Special handling for 2-29
 		self.assertEqual(HumanTime.parseTime('1 month after 2020-1-31'), datetime.datetime(2020, 2, 29))
 		self.assertEqual(HumanTime.parseTime('1 year before 2020-2-29'), datetime.datetime(2019, 2, 28))
@@ -146,3 +160,35 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseTime('12 months after 2020-2-29'), datetime.datetime(2021, 2, 28))
 		self.assertEqual(HumanTime.parseTime('4 years after 2020-2-29'), datetime.datetime(2024, 2, 29))
 		self.assertEqual(HumanTime.parseTime('48 months after 2020-2-29'), datetime.datetime(2024, 2, 29))
+
+	def test_parseTime_weekdays_sunday(self):
+		sunday = HumanTime.parseTime('Sun')
+		self.assertEqual(sunday.weekday(), HumanTime.SUNDAY)
+
+	def test_parseTime_weekdays_monday(self):
+		monday = HumanTime.parseTime('Monday')
+		self.assertEqual(monday.weekday(), HumanTime.MONDAY)
+
+	def test_parseTime_weekdays_tuesday(self):
+		tuesday = HumanTime.parseTime('Tues')
+		self.assertEqual(tuesday.weekday(), HumanTime.TUESDAY)
+
+	def test_parseTime_weekdays_friday(self):
+		tuesday = HumanTime.parseTime('fri')
+		self.assertEqual(tuesday.weekday(), HumanTime.FRIDAY)
+
+	def test_parseTime_weekdayOffsets(self):
+		monday = HumanTime.parseTime('Monday after 2019-5-5')
+		self.assertEqual(monday, datetime.datetime(2019, 5, 6))
+
+		monday = HumanTime.parseTime('Monday after 2019-5-6')
+		self.assertEqual(monday, datetime.datetime(2019, 5, 13))
+
+		monday = HumanTime.parseTime('Monday before 2019-5-5')
+		self.assertEqual(monday, datetime.datetime(2019, 4, 29))
+
+		monday = HumanTime.parseTime('Monday before 2019-5-6')
+		self.assertEqual(monday, datetime.datetime(2019, 4, 29))
+
+		monday = HumanTime.parseTime('Monday before 2019-5-7')
+		self.assertEqual(monday, datetime.datetime(2019, 5, 6))
