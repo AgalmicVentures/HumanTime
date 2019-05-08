@@ -355,7 +355,7 @@ PREPOSITION_SIGNS = {
 	'until': -1,
 }
 
-def parseTimeTokens(ts):
+def parseTimeTokens(ts, t=None):
 	"""
 	Parses a time from some tokens.
 
@@ -371,11 +371,15 @@ def parseTimeTokens(ts):
 	if n == 0:
 		raise ValueError('Invalid time string - no tokens')
 	elif n == 1:
-		t = ts[0]
-		keyword = KEYWORDS.get(t)
+		token = ts[0]
+		keyword = KEYWORDS.get(token)
 		if keyword is not None:
-			return keyword()
-		return parseTimestamp(t)
+			return keyword(t=t)
+		return parseTimestamp(token)
+
+	#D ago
+	if ts[-1] == 'ago':
+		return parseTimeTokens(ts[:-1] + ['before', 'now'], t=t)
 
 	#D after/etc. T
 	for i in range(1, min(3, len(ts))):
@@ -384,7 +388,7 @@ def parseTimeTokens(ts):
 			break
 
 	if sign is not None:
-		t0 = parseTimeTokens(ts[i+1:])
+		t0 = parseTimeTokens(ts[i+1:], t=t)
 		durationTokens = ts[:i]
 		unit = durationTokens[-1]
 		count = parseNumber(ts[0]) if len(durationTokens) > 1 else 1
@@ -422,7 +426,7 @@ def parseTimeTokens(ts):
 		return t0 + sign * duration
 	raise ValueError('Invalid time string')
 
-def parseTime(s):
+def parseTime(s, t=None):
 	"""
 	Parses a time from a human string.
 
@@ -430,4 +434,4 @@ def parseTime(s):
 	:return: datetime.timedelta
 	"""
 	ts = tokenize(s)
-	return parseTimeTokens(ts)
+	return parseTimeTokens(ts, t=t)

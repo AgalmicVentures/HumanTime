@@ -262,3 +262,11 @@ class HumanTimeTest(unittest.TestCase):
 
 		monday = HumanTime.parseTime('Monday before 2019-5-7')
 		self.assertEqual(monday, datetime.datetime(2019, 5, 6))
+
+	def test_parseTime_weekdays_ago(self):
+		t = datetime.datetime(2019, 5, 6, 13, 30)
+		self.assertEqual(HumanTime.parseTime('ten minutes ago', t=t), datetime.datetime(2019, 5, 6, 13, 20))
+		self.assertEqual(HumanTime.parseTime('30 minutes ago', t=t), datetime.datetime(2019, 5, 6, 13, 0))
+		self.assertEqual(HumanTime.parseTime('a day ago', t=t), datetime.datetime(2019, 5, 5, 13, 30))
+		self.assertEqual(HumanTime.parseTime('2 months ago', t=t), datetime.datetime(2019, 3, 6, 13, 30))
+		self.assertEqual(HumanTime.parseTime('three years ago', t=t), datetime.datetime(2016, 5, 6, 13, 30))

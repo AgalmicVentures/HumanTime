@@ -52,15 +52,26 @@ Behold the simplicity and elegance of `HumanTime`:
 	>>> HumanTime.parseTime('Thurs after 2019-5-9')
 	datetime.datetime(2019, 5, 16, 0, 0)
 
+It handles durations too:
+
+	>>> HumanTime.parseDuration('3 seconds')
+	datetime.timedelta(seconds=3)
+	>>> HumanTime.parseDuration('3 minutes')
+	datetime.timedelta(seconds=180)
+	>>> HumanTime.parseDuration('3 days')
+	datetime.timedelta(days=3)
+	>>> HumanTime.parseDuration('three weeks')
+	datetime.timedelta(days=21)
+
 ## Development
 
 ### Unit Tests
 Unit tests can be run with the following command:
 
     > python3 -m unittest discover
-    ..............
+    ..............................
 	----------------------------------------------------------------------
-	Ran 14 tests in 0.006s
+	Ran 30 tests in 0.007s
 
 	OK
 
