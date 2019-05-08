@@ -55,7 +55,7 @@ CARDINALS = {
 	'ten': 10,
 	'eleven': 11,
 	'twelve': 12,
-	#Not strictly cardinals, but it works
+	#Not strictly cardinals, but its helpful
 	'a': 1,
 	'an': 1,
 	'the': 1,
@@ -376,6 +376,10 @@ def parseTimeTokens(ts, t=None):
 		if keyword is not None:
 			return keyword(t=t)
 		return parseTimestamp(token)
+
+	#Articles
+	if ts[0] in {'a', 'an', 'the'}:
+		return parseTimeTokens(ts[1:], t=t)
 
 	#D ago
 	if ts[-1] == 'ago':

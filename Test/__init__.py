@@ -260,6 +260,9 @@ class HumanTimeTest(unittest.TestCase):
 		monday = HumanTime.parseTime('3 Mondays before 2019-5-6')
 		self.assertEqual(monday, datetime.datetime(2019, 4, 15))
 
+		monday = HumanTime.parseTime('the third Monday before 2019-5-6')
+		self.assertEqual(monday, datetime.datetime(2019, 4, 15))
+
 		monday = HumanTime.parseTime('Monday before 2019-5-7')
 		self.assertEqual(monday, datetime.datetime(2019, 5, 6))
 
