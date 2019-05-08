@@ -56,6 +56,34 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseCardinal('eleven'), 11)
 		self.assertEqual(HumanTime.parseCardinal('twelve'), 12)
 
+	def test_parseOrdinal(self):
+		self.assertEqual(HumanTime.parseOrdinal('1st'), 1)
+		self.assertEqual(HumanTime.parseOrdinal('second'), 2)
+		self.assertEqual(HumanTime.parseOrdinal('3rd'), 3)
+		self.assertEqual(HumanTime.parseOrdinal('fourth'), 4)
+		self.assertEqual(HumanTime.parseOrdinal('5th'), 5)
+		self.assertEqual(HumanTime.parseOrdinal('6th'), 6)
+		self.assertEqual(HumanTime.parseOrdinal('seventh'), 7)
+		self.assertEqual(HumanTime.parseOrdinal('eighth'), 8)
+		self.assertEqual(HumanTime.parseOrdinal('ninth'), 9)
+		self.assertEqual(HumanTime.parseOrdinal('10th'), 10)
+		self.assertEqual(HumanTime.parseOrdinal('11th'), 11)
+		self.assertEqual(HumanTime.parseOrdinal('12th'), 12)
+
+	def test_parseNumber(self):
+		self.assertEqual(HumanTime.parseNumber('one'), 1)
+		self.assertEqual(HumanTime.parseNumber('two'), 2)
+		self.assertEqual(HumanTime.parseNumber('three'), 3)
+		self.assertEqual(HumanTime.parseNumber('four'), 4)
+		self.assertEqual(HumanTime.parseNumber('5th'), 5)
+		self.assertEqual(HumanTime.parseNumber('6th'), 6)
+		self.assertEqual(HumanTime.parseNumber('seventh'), 7)
+		self.assertEqual(HumanTime.parseNumber('eighth'), 8)
+		self.assertEqual(HumanTime.parseNumber('ninth'), 9)
+		self.assertEqual(HumanTime.parseNumber('10'), 10)
+		self.assertEqual(HumanTime.parseNumber('11'), 11)
+		self.assertEqual(HumanTime.parseNumber('12'), 12)
+
 	def test_parseDuration_empty(self):
 		with self.assertRaises(ValueError):
 			HumanTime.parseDuration('')
@@ -171,6 +199,11 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseTime('the year before 2020-2-28'), datetime.datetime(2019, 2, 28))
 		self.assertEqual(HumanTime.parseTime('a year after 2020-2-28'), datetime.datetime(2021, 2, 28))
 		self.assertEqual(HumanTime.parseTime('twelve months after 2020-2-28'), datetime.datetime(2021, 2, 28))
+
+	def test_parseTime_ordinalOffsets(self):
+		self.assertEqual(HumanTime.parseTime('first hour after 2019-2-1'), datetime.datetime(2019, 2, 1, 1))
+		self.assertEqual(HumanTime.parseTime('second second after 2019-2-1'), datetime.datetime(2019, 2, 1, 0, 0, 2))
+		self.assertEqual(HumanTime.parseTime('3rd month after 2018-1-31'), datetime.datetime(2018, 4, 30))
 
 	def test_parseTime_maxDayOfMonth(self):
 		#Max day of month

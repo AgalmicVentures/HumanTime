@@ -61,10 +61,55 @@ CARDINALS = {
 	'the': 1,
 }
 
+ORDINALS = {
+	'1st': 1,
+	'2nd': 2,
+	'3rd': 3,
+	'4th': 4,
+	'5th': 5,
+	'6th': 6,
+	'7th': 7,
+	'8th': 8,
+	'9th': 9,
+	'10th': 10,
+	'11th': 11,
+	'12th': 12,
+	'first': 1,
+	'second': 2,
+	'third': 3,
+	'fourth': 4,
+	'fifth': 5,
+	'sixth': 6,
+	'seventh': 7,
+	'eighth': 8,
+	'ninth': 9,
+	'tenth': 10,
+	'eleventh': 11,
+	'twelfth': 12,
+}
+
 def parseCardinal(s):
 	cardinalValue = CARDINALS.get(s)
 	if cardinalValue is not None:
 		return cardinalValue
+
+	return int(s)
+
+def parseOrdinal(s):
+	ordinalValue = ORDINALS.get(s)
+	if ordinalValue is not None:
+		return ordinalValue
+
+	return int(s)
+
+def parseNumber(s):
+	cardinalValue = CARDINALS.get(s)
+	if cardinalValue is not None:
+		return cardinalValue
+
+	ordinalValue = ORDINALS.get(s)
+	if ordinalValue is not None:
+		return ordinalValue
 
 	return int(s)
 
@@ -139,7 +184,7 @@ def parseDurationTokens(ts):
 			pass
 	elif n == 2:
 		try:
-			count = parseCardinal(ts[0])
+			count = parseNumber(ts[0])
 			unit = UNITS[ts[1]]
 			return count * unit
 		except KeyError:
@@ -342,7 +387,7 @@ def parseTimeTokens(ts):
 		t0 = parseTimeTokens(ts[i+1:])
 		durationTokens = ts[:i]
 		unit = durationTokens[-1]
-		count = parseCardinal(ts[0]) if len(durationTokens) > 1 else 1
+		count = parseNumber(ts[0]) if len(durationTokens) > 1 else 1
 
 		weekday = (DAY_OF_WEEK_ON_OR_AFTER if sign == 1 else DAY_OF_WEEK_ON_OR_BEFORE).get(unit)
 		if weekday is not None:

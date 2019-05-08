@@ -19,6 +19,7 @@ Sidestep tedious and error-prone code in favor of a simple, English-based DSL fo
 	2019-05-05 20:00:00.000000 | eight hours after noon
 	2019-04-30 00:00:00.000000 | 3 months after 2019-1-31
 	2021-02-28 00:00:00.000000 | 1 year after 2020-02-29
+	2019-01-01 00:00:02.000000 | second second after 2019-01-01
 	2019-06-16 00:00:00.000000 | 1 month after Thurs after 2019-5-9
 
 ## Installation
