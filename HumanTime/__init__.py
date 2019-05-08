@@ -272,13 +272,13 @@ def dayOfWeekOnOrBefore(t, dayOfWeek):
 DAY_OF_WEEK_ON_OR_AFTER = {}
 DAY_OF_WEEK_ON_OR_BEFORE = {}
 for dayOfWeek, names in [
-			(MONDAY, ['mon', 'monday']),
-			(TUESDAY, ['tue', 'tues', 'tuesday']),
-			(WEDNESDAY, ['wed', 'weds', 'wednesday']),
-			(THURSDAY, ['thu', 'thur', 'thurs', 'thursday']),
-			(FRIDAY, ['fri', 'friday']),
-			(SATURDAY, ['sat', 'saturday']),
-			(SUNDAY, ['sun', 'sunday']),
+			(MONDAY, ['mon', 'monday', 'mondays']),
+			(TUESDAY, ['tue', 'tues', 'tuesday', 'tuesdays']),
+			(WEDNESDAY, ['wed', 'weds', 'wednesday', 'wednesdays']),
+			(THURSDAY, ['thu', 'thur', 'thurs', 'thursday', 'thursdays']),
+			(FRIDAY, ['fri', 'friday', 'fridays']),
+			(SATURDAY, ['sat', 'saturday', 'saturdays']),
+			(SUNDAY, ['sun', 'sunday', 'sundays']),
 		]:
 	afterFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrAfter(t, d)
 	beforeFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrBefore(t, d)
@@ -342,14 +342,13 @@ def parseTimeTokens(ts):
 		t0 = parseTimeTokens(ts[i+1:])
 		durationTokens = ts[:i]
 		unit = durationTokens[-1]
+		count = parseCardinal(ts[0]) if len(durationTokens) > 1 else 1
 
-		if len(durationTokens) == 1:
-			weekday = (DAY_OF_WEEK_ON_OR_AFTER if sign == 1 else DAY_OF_WEEK_ON_OR_BEFORE).get(unit)
-			if weekday is not None:
-				#This is a strict after so add 1 day
-				return weekday(t=t0 + sign * DAY)
+		weekday = (DAY_OF_WEEK_ON_OR_AFTER if sign == 1 else DAY_OF_WEEK_ON_OR_BEFORE).get(unit)
+		if weekday is not None:
+			#This is a strict after/before so add/subtract 1 day
+			return weekday(t=t0 + sign * DAY) + ((count - 1) * sign) * WEEK
 
-		count = parseCardinal(ts[0]) if len(ts) > 1 else 1
 		if unit in {'mo', 'month', 'months'}:
 			deltaMonth = t0.month - 1 + sign * count
 			yearCount = deltaMonth // 12

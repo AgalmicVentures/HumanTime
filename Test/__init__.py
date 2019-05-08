@@ -202,8 +202,8 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(tuesday.weekday(), HumanTime.TUESDAY)
 
 	def test_parseTime_weekdays_friday(self):
-		tuesday = HumanTime.parseTime('fri')
-		self.assertEqual(tuesday.weekday(), HumanTime.FRIDAY)
+		friday = HumanTime.parseTime('fri')
+		self.assertEqual(friday.weekday(), HumanTime.FRIDAY)
 
 	def test_parseTime_weekdayOffsets(self):
 		monday = HumanTime.parseTime('Monday after 2019-5-5')
@@ -212,11 +212,20 @@ class HumanTimeTest(unittest.TestCase):
 		monday = HumanTime.parseTime('Monday after 2019-5-6')
 		self.assertEqual(monday, datetime.datetime(2019, 5, 13))
 
-		monday = HumanTime.parseTime('Monday before 2019-5-5')
-		self.assertEqual(monday, datetime.datetime(2019, 4, 29))
+		monday = HumanTime.parseTime('2 Mondays after 2019-5-5')
+		self.assertEqual(monday, datetime.datetime(2019, 5, 13))
+
+		monday = HumanTime.parseTime('2 Mon after 2019-5-6')
+		self.assertEqual(monday, datetime.datetime(2019, 5, 20))
+
+		tuesday = HumanTime.parseTime('Tuesday before 2019-5-5')
+		self.assertEqual(tuesday, datetime.datetime(2019, 4, 30))
 
 		monday = HumanTime.parseTime('Monday before 2019-5-6')
 		self.assertEqual(monday, datetime.datetime(2019, 4, 29))
+
+		monday = HumanTime.parseTime('3 Mondays before 2019-5-6')
+		self.assertEqual(monday, datetime.datetime(2019, 4, 15))
 
 		monday = HumanTime.parseTime('Monday before 2019-5-7')
 		self.assertEqual(monday, datetime.datetime(2019, 5, 6))
