@@ -42,6 +42,32 @@ def tokenize(s):
 
 ##### Durations #####
 
+CARDINALS = {
+	'one': 1,
+	'two': 2,
+	'three': 3,
+	'four': 4,
+	'five': 5,
+	'six': 6,
+	'seven': 7,
+	'eight': 8,
+	'nine': 9,
+	'ten': 10,
+	'eleven': 11,
+	'twelve': 12,
+	#Not strictly cardinals, but it works
+	'a': 1,
+	'an': 1,
+	'the': 1,
+}
+
+def parseCardinal(s):
+	cardinalValue = CARDINALS.get(s)
+	if cardinalValue is not None:
+		return cardinalValue
+
+	return int(s)
+
 MICROSECOND = datetime.timedelta(microseconds=1)
 MILLISECOND = datetime.timedelta(microseconds=1000)
 SECOND = datetime.timedelta(seconds=1)
@@ -113,7 +139,7 @@ def parseDurationTokens(ts):
 			pass
 	elif n == 2:
 		try:
-			count = int(ts[0])
+			count = parseCardinal(ts[0])
 			unit = UNITS[ts[1]]
 			return count * unit
 		except KeyError:
@@ -323,7 +349,7 @@ def parseTimeTokens(ts):
 				#This is a strict after so add 1 day
 				return weekday(t=t0 + sign * DAY)
 
-		count = int(ts[0]) if len(ts) > 1 else 1
+		count = parseCardinal(ts[0]) if len(ts) > 1 else 1
 		if unit in {'mo', 'month', 'months'}:
 			deltaMonth = t0.month - 1 + sign * count
 			yearCount = deltaMonth // 12

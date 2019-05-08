@@ -42,6 +42,20 @@ class HumanTimeTest(unittest.TestCase):
 	def test_tokenize(self):
 		self.assertEqual(HumanTime.tokenize('3 hours from now'), ['3', 'hours', 'from', 'now'])
 
+	def test_parseCardinal(self):
+		self.assertEqual(HumanTime.parseCardinal('one'), 1)
+		self.assertEqual(HumanTime.parseCardinal('two'), 2)
+		self.assertEqual(HumanTime.parseCardinal('three'), 3)
+		self.assertEqual(HumanTime.parseCardinal('four'), 4)
+		self.assertEqual(HumanTime.parseCardinal('five'), 5)
+		self.assertEqual(HumanTime.parseCardinal('six'), 6)
+		self.assertEqual(HumanTime.parseCardinal('seven'), 7)
+		self.assertEqual(HumanTime.parseCardinal('eight'), 8)
+		self.assertEqual(HumanTime.parseCardinal('nine'), 9)
+		self.assertEqual(HumanTime.parseCardinal('ten'), 10)
+		self.assertEqual(HumanTime.parseCardinal('eleven'), 11)
+		self.assertEqual(HumanTime.parseCardinal('twelve'), 12)
+
 	def test_parseDuration_empty(self):
 		with self.assertRaises(ValueError):
 			HumanTime.parseDuration('')
@@ -55,6 +69,10 @@ class HumanTimeTest(unittest.TestCase):
 
 		self.assertEqual(HumanTime.parseDuration('3 days'), datetime.timedelta(days=3))
 		self.assertEqual(HumanTime.parseDuration('72 hours'), datetime.timedelta(days=3))
+
+	def test_parseDuration_cardinals(self):
+		self.assertEqual(HumanTime.parseDuration('three seconds'), datetime.timedelta(seconds=3))
+		self.assertEqual(HumanTime.parseDuration('ten days'), datetime.timedelta(days=10))
 
 	def test_paseTimestamp(self):
 		self.assertEqual(HumanTime.parseTimestamp('2019-04-02'), datetime.datetime(2019, 4, 2))
@@ -143,6 +161,16 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseTime('1 year before 2020-2-28'), datetime.datetime(2019, 2, 28))
 		self.assertEqual(HumanTime.parseTime('1 year after 2020-2-28'), datetime.datetime(2021, 2, 28))
 		self.assertEqual(HumanTime.parseTime('12 months after 2020-2-28'), datetime.datetime(2021, 2, 28))
+
+	def test_parseTime_cardinalOffsets(self):
+		#Basic month, year offsets
+		self.assertEqual(HumanTime.parseTime('an hour after 2019-2-1'), datetime.datetime(2019, 2, 1, 1))
+		self.assertEqual(HumanTime.parseTime('one year after 2019-2-1'), datetime.datetime(2020, 2, 1))
+		self.assertEqual(HumanTime.parseTime('twelve months after 2019-2-1'), datetime.datetime(2020, 2, 1))
+
+		self.assertEqual(HumanTime.parseTime('the year before 2020-2-28'), datetime.datetime(2019, 2, 28))
+		self.assertEqual(HumanTime.parseTime('a year after 2020-2-28'), datetime.datetime(2021, 2, 28))
+		self.assertEqual(HumanTime.parseTime('twelve months after 2020-2-28'), datetime.datetime(2021, 2, 28))
 
 	def test_parseTime_maxDayOfMonth(self):
 		#Max day of month
