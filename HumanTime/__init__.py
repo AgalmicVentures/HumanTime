@@ -391,9 +391,20 @@ def parseTimeTokens(ts, t=None):
 		if sign:
 			break
 
+	#If not after/before, maybe next/last?
 	if sign is not None:
 		t0 = parseTimeTokens(ts[i+1:], t=t)
 		durationTokens = ts[:i]
+	elif n == 2:
+		sign = {
+			'last': -1,
+			'next': 1,
+		}.get(ts[0])
+		if sign is not None:
+			t0 = now(t)
+			durationTokens = ts[1:2]
+
+	if sign is not None:
 		unit = durationTokens[-1]
 		count = parseNumber(ts[0]) if len(durationTokens) > 1 else 1
 
