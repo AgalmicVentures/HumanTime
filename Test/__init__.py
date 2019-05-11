@@ -293,6 +293,13 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseTime('May after 2019-5-6'), datetime.datetime(2020, 5, 1))
 		self.assertEqual(HumanTime.parseTime('May before 2019-5-6'), datetime.datetime(2018, 5, 1))
 
+	def test_parseTime_weekdayOffsets(self):
+		t = datetime.datetime(2019, 5, 11, 13, 30)
+		self.assertEqual(HumanTime.parseTime('5th weekday before now', t=t), datetime.datetime(2019, 5, 6))
+		self.assertEqual(HumanTime.parseTime('6 weekdays before now', t=t), datetime.datetime(2019, 5, 3))
+		self.assertEqual(HumanTime.parseTime('5th weekday after now', t=t), datetime.datetime(2019, 5, 17))
+		self.assertEqual(HumanTime.parseTime('6 weekdays after now', t=t), datetime.datetime(2019, 5, 20))
+
 	def test_parseTime_ago(self):
 		t = datetime.datetime(2019, 5, 6, 13, 30)
 		self.assertEqual(HumanTime.parseTime('ten minutes ago', t=t), datetime.datetime(2019, 5, 6, 13, 20))
@@ -321,3 +328,8 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseTime('last May', t=t), datetime.datetime(2018, 5, 1))
 		self.assertEqual(HumanTime.parseTime('May', t=t), datetime.datetime(2019, 5, 1))
 		self.assertEqual(HumanTime.parseTime('next May', t=t), datetime.datetime(2020, 5, 1))
+
+	def test_parseTime_nextLast_weekday(self):
+		t = datetime.datetime(2019, 5, 11, 13, 30)
+		self.assertEqual(HumanTime.parseTime('last weekday', t=t), datetime.datetime(2019, 5, 10))
+		self.assertEqual(HumanTime.parseTime('next weekday', t=t), datetime.datetime(2019, 5, 13))
