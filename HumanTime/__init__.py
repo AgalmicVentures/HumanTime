@@ -205,6 +205,36 @@ def parseDuration(s):
 
 ##### Times #####
 
+def parseTimeOfDay(s):
+	"""
+	Parses a time of day such as 9:30:21 AM.
+
+	:param s: str Input
+	:return: datetime.time
+	"""
+	if s == 'midnight':
+		return datetime.time(0, 0, 0)
+	elif s == 'noon':
+		return datetime.time(12, 0, 0)
+
+	formats = [
+		'%I:%M:%S.%f%p',
+		'%I:%M:%S%p',
+		'%I:%M%p',
+		'%I%p',
+
+		'%H:%M:%S.%f',
+		'%H:%M:%S',
+		'%H:%M',
+		'%H',
+	]
+	for format in formats:
+		try:
+			return datetime.datetime.strptime(s, format).time()
+		except ValueError as e:
+			pass
+	raise ValueError('Invalid time: "%s"' % str(s))
+
 def parseTimestamp(s):
 	"""
 	Parses a timestamp such as 2019-04-29.
@@ -456,6 +486,12 @@ def parseTimeTokens(ts, t=None):
 	#D ago
 	if ts[-1] == 'ago':
 		return parseTimeTokens(ts[:-1] + ['before', 'now'], t=t)
+
+	#T at Time
+	if len(ts) > 2 and ts[-2] == 'at':
+		t0 = parseTimeTokens(ts[:-2], t=t)
+		time = parseTimeOfDay(ts[-1])
+		return t0.replace(hour=time.hour, minute=time.minute, second=time.second, microsecond=time.microsecond)
 
 	#D after/etc. T
 	for i in range(1, min(3, len(ts))):

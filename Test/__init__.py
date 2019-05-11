@@ -102,8 +102,14 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseDuration('three seconds'), datetime.timedelta(seconds=3))
 		self.assertEqual(HumanTime.parseDuration('ten days'), datetime.timedelta(days=10))
 
+	def test_paseTimeOfDay(self):
+		self.assertEqual(HumanTime.parseTimeOfDay('1:30'), datetime.time(1, 30))
+		self.assertEqual(HumanTime.parseTimeOfDay('1:30PM'), datetime.time(13, 30))
+		self.assertEqual(HumanTime.parseTimeOfDay('2:30:13'), datetime.time(2, 30, 13))
+
 	def test_paseTimestamp(self):
 		self.assertEqual(HumanTime.parseTimestamp('2019-04-02'), datetime.datetime(2019, 4, 2))
+		self.assertEqual(HumanTime.parseTimestamp('2016-06-03'), datetime.datetime(2016, 6, 3))
 
 	def test_now(self):
 		t1 = datetime.datetime.now()
@@ -320,6 +326,15 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseTime('last Weds', t=t), datetime.datetime(2019, 5, 1))
 		self.assertEqual(HumanTime.parseTime('Weds', t=t), datetime.datetime(2019, 5, 8))
 		self.assertEqual(HumanTime.parseTime('next Weds', t=t), datetime.datetime(2019, 5, 15))
+
+	def test_parseTime_nextLast_weekday_atTime(self):
+		t = datetime.datetime(2019, 5, 8, 13, 30)
+
+		#Most days of the week result in only two (2) distinct dates...
+		self.assertEqual(HumanTime.parseTime('last Monday at noon', t=t), datetime.datetime(2019, 5, 6, 12))
+		self.assertEqual(HumanTime.parseTime('last Monday at 3PM', t=t), datetime.datetime(2019, 5, 6, 15))
+		self.assertEqual(HumanTime.parseTime('Monday at 7', t=t), datetime.datetime(2019, 5, 13, 7))
+		self.assertEqual(HumanTime.parseTime('next Monday at 12:30:01', t=t), datetime.datetime(2019, 5, 13, 12, 30, 1))
 
 	def test_parseTime_nextLast_month(self):
 		t = datetime.datetime(2019, 5, 8, 13, 30)

@@ -11,6 +11,8 @@ Sidestep tedious and error-prone code in favor of a simple, English-based DSL fo
 	2019-05-05 12:00:00.000000 | noon
 	2019-05-04 00:00:00.000000 | yesterday
 	2019-05-06 00:00:00.000000 | tomorrow
+	2019-05-06 12:00:00.000000 | tomorrow at noon
+	2019-05-06 15:30:00.000000 | tomorrow at 3:30PM
 	2019-05-06 00:00:00.000000 | the day after today
 	2019-05-08 00:00:00.000000 | Wednesday
 	2019-05-05 22:32:28.493048 | 3 hours from now
