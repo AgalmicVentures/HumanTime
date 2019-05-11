@@ -314,6 +314,30 @@ def dayOfWeekOnOrBefore(t, dayOfWeek):
 		t -= datetime.timedelta(days=1)
 	return t
 
+def weekdayOnOrAfter(t):
+	"""
+	Returns the first weekday on or after a given time.
+
+	:param t: datetime.datetime
+	:return: datetime.datetime
+	"""
+	t = today(t)
+	while t.weekday() >= SATURDAY:
+		t += datetime.timedelta(days=1)
+	return t
+
+def weekdayOnOrBefore(t):
+	"""
+	Returns the first weekday on or before a given time.
+
+	:param t: datetime.datetime
+	:return: datetime.datetime
+	"""
+	t = today(t)
+	while t.weekday() >= SATURDAY:
+		t -= datetime.timedelta(days=1)
+	return t
+
 DAY_OF_WEEK_ON_OR_AFTER = {}
 DAY_OF_WEEK_ON_OR_BEFORE = {}
 for dayOfWeek, names in [
@@ -411,7 +435,6 @@ def parseTimeTokens(ts, t=None):
 	:param ts: list String tokens
 	:return: datetime.datetime
 	"""
-	#TODO: ago
 	#TODO: this/next/last
 	#TODO: business days
 	#TODO: of the month
@@ -457,10 +480,17 @@ def parseTimeTokens(ts, t=None):
 		unit = durationTokens[-1]
 		count = parseNumber(ts[0]) if len(durationTokens) > 1 else 1
 
-		weekday = (DAY_OF_WEEK_ON_OR_AFTER if sign == 1 else DAY_OF_WEEK_ON_OR_BEFORE).get(unit)
-		if weekday is not None:
+		if unit in {'weekday', 'weekdays'}:
+			weekday = weekdayOnOrAfter if sign == 1 else weekdayOnOrBefore
+			t1 = t0
+			for i in range(count):
+				t1 = weekday(t=t1 + sign * DAY)
+			return t1
+
+		dayOfWeek = (DAY_OF_WEEK_ON_OR_AFTER if sign == 1 else DAY_OF_WEEK_ON_OR_BEFORE).get(unit)
+		if dayOfWeek is not None:
 			#This is a strict after/before so add/subtract 1 day
-			return weekday(t=t0 + sign * DAY) + ((count - 1) * sign) * WEEK
+			return dayOfWeek(t=t0 + sign * DAY) + ((count - 1) * sign) * WEEK
 
 		month = (MONTH_ON_OR_AFTER if sign == 1 else MONTH_ON_OR_BEFORE).get(unit)
 		if month is not None:
