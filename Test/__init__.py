@@ -157,6 +157,16 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.dayOfWeekOnOrBefore(datetime.datetime(2019, 5, 6), HumanTime.SUNDAY), datetime.datetime(2019, 5, 5))
 		self.assertEqual(HumanTime.dayOfWeekOnOrBefore(datetime.datetime(2019, 5, 6), HumanTime.MONDAY), datetime.datetime(2019, 5, 6))
 
+	def test_monthOnOrAfter(self):
+		self.assertEqual(HumanTime.monthOnOrAfter(datetime.datetime(2019, 5, 6), 4), datetime.datetime(2020, 4, 1))
+		self.assertEqual(HumanTime.monthOnOrAfter(datetime.datetime(2019, 5, 6), 5), datetime.datetime(2019, 5, 1))
+		self.assertEqual(HumanTime.monthOnOrAfter(datetime.datetime(2019, 5, 6), 6), datetime.datetime(2019, 6, 1))
+
+	def test_monthOnOrBefore(self):
+		self.assertEqual(HumanTime.monthOnOrBefore(datetime.datetime(2019, 5, 6), 4), datetime.datetime(2019, 4, 1))
+		self.assertEqual(HumanTime.monthOnOrBefore(datetime.datetime(2019, 5, 6), 5), datetime.datetime(2019, 5, 1))
+		self.assertEqual(HumanTime.monthOnOrBefore(datetime.datetime(2019, 5, 6), 6), datetime.datetime(2018, 6, 1))
+
 	def test_parseTime_empty(self):
 		with self.assertRaises(ValueError):
 			HumanTime.parseTime('')
@@ -223,20 +233,32 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseTime('48 months after 2020-2-29'), datetime.datetime(2024, 2, 29))
 
 	def test_parseTime_weekdays_sunday(self):
-		sunday = HumanTime.parseTime('Sun')
-		self.assertEqual(sunday.weekday(), HumanTime.SUNDAY)
+		d = HumanTime.parseTime('Sun')
+		self.assertEqual(d.weekday(), HumanTime.SUNDAY)
 
 	def test_parseTime_weekdays_monday(self):
-		monday = HumanTime.parseTime('Monday')
-		self.assertEqual(monday.weekday(), HumanTime.MONDAY)
+		d = HumanTime.parseTime('Monday')
+		self.assertEqual(d.weekday(), HumanTime.MONDAY)
 
 	def test_parseTime_weekdays_tuesday(self):
-		tuesday = HumanTime.parseTime('Tues')
-		self.assertEqual(tuesday.weekday(), HumanTime.TUESDAY)
+		d = HumanTime.parseTime('Tues')
+		self.assertEqual(d.weekday(), HumanTime.TUESDAY)
 
 	def test_parseTime_weekdays_friday(self):
-		friday = HumanTime.parseTime('fri')
-		self.assertEqual(friday.weekday(), HumanTime.FRIDAY)
+		d = HumanTime.parseTime('fri')
+		self.assertEqual(d.weekday(), HumanTime.FRIDAY)
+
+	def test_parseTime_months_january(self):
+		d = HumanTime.parseTime('jan')
+		self.assertEqual(d.month, 1)
+
+	def test_parseTime_months_february(self):
+		d = HumanTime.parseTime('February')
+		self.assertEqual(d.month, 2)
+
+	def test_parseTime_months_may(self):
+		d = HumanTime.parseTime('may')
+		self.assertEqual(d.month, 5)
 
 	def test_parseTime_weekdayOffsets(self):
 		monday = HumanTime.parseTime('Monday after 2019-5-5')
@@ -266,6 +288,11 @@ class HumanTimeTest(unittest.TestCase):
 		monday = HumanTime.parseTime('Monday before 2019-5-7')
 		self.assertEqual(monday, datetime.datetime(2019, 5, 6))
 
+	def test_parseTime_monthOffsets(self):
+		self.assertEqual(HumanTime.parseTime('January after 2019-5-5'), datetime.datetime(2020, 1, 1))
+		self.assertEqual(HumanTime.parseTime('May after 2019-5-6'), datetime.datetime(2020, 5, 1))
+		self.assertEqual(HumanTime.parseTime('May before 2019-5-6'), datetime.datetime(2018, 5, 1))
+
 	def test_parseTime_ago(self):
 		t = datetime.datetime(2019, 5, 6, 13, 30)
 		self.assertEqual(HumanTime.parseTime('ten minutes ago', t=t), datetime.datetime(2019, 5, 6, 13, 20))
@@ -274,7 +301,7 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseTime('2 months ago', t=t), datetime.datetime(2019, 3, 6, 13, 30))
 		self.assertEqual(HumanTime.parseTime('three years ago', t=t), datetime.datetime(2016, 5, 6, 13, 30))
 
-	def test_parseTime_nextLast(self):
+	def test_parseTime_nextLast_weekday(self):
 		t = datetime.datetime(2019, 5, 8, 13, 30)
 
 		#Most days of the week result in only two (2) distinct dates...
@@ -286,3 +313,11 @@ class HumanTimeTest(unittest.TestCase):
 		self.assertEqual(HumanTime.parseTime('last Weds', t=t), datetime.datetime(2019, 5, 1))
 		self.assertEqual(HumanTime.parseTime('Weds', t=t), datetime.datetime(2019, 5, 8))
 		self.assertEqual(HumanTime.parseTime('next Weds', t=t), datetime.datetime(2019, 5, 15))
+
+	def test_parseTime_nextLast_month(self):
+		t = datetime.datetime(2019, 5, 8, 13, 30)
+
+		#Most days of the week result in only two (2) distinct dates...
+		self.assertEqual(HumanTime.parseTime('last May', t=t), datetime.datetime(2018, 5, 1))
+		self.assertEqual(HumanTime.parseTime('May', t=t), datetime.datetime(2019, 5, 1))
+		self.assertEqual(HumanTime.parseTime('next May', t=t), datetime.datetime(2020, 5, 1))

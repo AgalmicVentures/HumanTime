@@ -331,6 +331,54 @@ for dayOfWeek, names in [
 		DAY_OF_WEEK_ON_OR_AFTER[name] = afterFunction
 		DAY_OF_WEEK_ON_OR_BEFORE[name] = beforeFunction
 
+def monthOnOrAfter(t, month):
+	"""
+	Returns the January/February/etc. on or after the given date.
+
+	:param t: datetime.datetime
+	:param month: int 1 - 12
+	:return: datetime.datetime
+	"""
+	if month < 1 or 12 < month:
+		raise ValueError('Month must be in [1, 12]')
+	t = now(t)
+	return datetime.datetime(t.year + 1 if t.month > month else t.year, month, 1)
+
+def monthOnOrBefore(t, month):
+	"""
+	Returns the January/February/etc. on or before the given date.
+
+	:param t: datetime.datetime
+	:param month: int 1 - 12
+	:return: datetime.datetime
+	"""
+	if month < 1 or 12 < month:
+		raise ValueError('Month must be in [1, 12]')
+	t = now(t)
+	return datetime.datetime(t.year - 1 if t.month < month else t.year, month, 1)
+
+MONTH_ON_OR_AFTER = {}
+MONTH_ON_OR_BEFORE = {}
+for month, names in [
+			(1, ['jan', 'january']),
+			(2, ['feb', 'february']),
+			(3, ['mar', 'march']),
+			(4, ['apr', 'april']),
+			(5, ['may']),
+			(6, ['jun', 'june']),
+			(7, ['jul', 'july']),
+			(8, ['aug', 'august']),
+			(9, ['sep', 'sept', 'september']),
+			(10, ['oct', 'october']),
+			(11, ['nov', 'november']),
+			(12, ['dec', 'december']),
+		]:
+	afterFunction = lambda t=None, m=month: monthOnOrAfter(t, m)
+	beforeFunction = lambda t=None, m=month: monthOnOrBefore(t, m)
+	for name in names:
+		MONTH_ON_OR_AFTER[name] = afterFunction
+		MONTH_ON_OR_BEFORE[name] = beforeFunction
+
 KEYWORDS = {
 	#Basics
 	'noon': noon,
@@ -345,6 +393,7 @@ KEYWORDS = {
 	#TODO: holidays
 }
 KEYWORDS.update(DAY_OF_WEEK_ON_OR_AFTER)
+KEYWORDS.update(MONTH_ON_OR_AFTER)
 
 PREPOSITION_SIGNS = {
 	'after': 1,
@@ -412,6 +461,13 @@ def parseTimeTokens(ts, t=None):
 		if weekday is not None:
 			#This is a strict after/before so add/subtract 1 day
 			return weekday(t=t0 + sign * DAY) + ((count - 1) * sign) * WEEK
+
+		month = (MONTH_ON_OR_AFTER if sign == 1 else MONTH_ON_OR_BEFORE).get(unit)
+		if month is not None:
+			endMonth = 12 if sign == 1 else 1
+			t1 = datetime.datetime(t0.year + (sign if t0.month == endMonth else 0), (t0.month + sign) % 12, 1)
+			t2 = month(t=t1)
+			return t2.replace(year=t2.year + sign * (count - 1))
 
 		if unit in {'mo', 'month', 'months'}:
 			deltaMonth = t0.month - 1 + sign * count
