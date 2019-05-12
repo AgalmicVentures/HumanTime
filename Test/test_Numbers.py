@@ -29,7 +29,7 @@ class NumbersTest(unittest.TestCase):
 	Tests for functions in the Numbers module.
 	"""
 
-	def test_parseCardinal(self):
+	def test_parseCardinal_small(self):
 		self.assertEqual(Numbers.parseCardinal('one'), 1)
 		self.assertEqual(Numbers.parseCardinal('two'), 2)
 		self.assertEqual(Numbers.parseCardinal('three'), 3)
@@ -43,7 +43,12 @@ class NumbersTest(unittest.TestCase):
 		self.assertEqual(Numbers.parseCardinal('eleven'), 11)
 		self.assertEqual(Numbers.parseCardinal('twelve'), 12)
 
-	def test_parseOrdinal(self):
+	def test_parseCardinal_large(self):
+		self.assertEqual(Numbers.parseCardinal('twenty'), 20)
+		self.assertEqual(Numbers.parseCardinal('fifty'), 50)
+		self.assertEqual(Numbers.parseCardinal('ninety'), 90)
+
+	def test_parseOrdinal_small(self):
 		self.assertEqual(Numbers.parseOrdinal('1st'), 1)
 		self.assertEqual(Numbers.parseOrdinal('second'), 2)
 		self.assertEqual(Numbers.parseOrdinal('3rd'), 3)
@@ -57,7 +62,12 @@ class NumbersTest(unittest.TestCase):
 		self.assertEqual(Numbers.parseOrdinal('11th'), 11)
 		self.assertEqual(Numbers.parseOrdinal('12th'), 12)
 
-	def test_parseNumber(self):
+	def test_parseOrdinal_large(self):
+		self.assertEqual(Numbers.parseOrdinal('29th'), 29)
+		self.assertEqual(Numbers.parseOrdinal('30th'), 30)
+		self.assertEqual(Numbers.parseOrdinal('31st'), 31)
+
+	def test_parseNumber_small(self):
 		self.assertEqual(Numbers.parseNumber('one'), 1)
 		self.assertEqual(Numbers.parseNumber('two'), 2)
 		self.assertEqual(Numbers.parseNumber('three'), 3)

@@ -71,9 +71,9 @@ It handles durations too:
 Unit tests can be run with the following command:
 
     > python3 -m unittest discover
-    ..............................
+	.............................................
 	----------------------------------------------------------------------
-	Ran 30 tests in 0.007s
+	Ran 45 tests in 0.010s
 
 	OK
 
