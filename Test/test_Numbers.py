@@ -29,6 +29,9 @@ class NumbersTest(unittest.TestCase):
 	Tests for functions in the Numbers module.
 	"""
 
+	def test_parseCardinal_zero(self):
+		self.assertEqual(Numbers.parseCardinal('zero'), 0)
+
 	def test_parseCardinal_small(self):
 		self.assertEqual(Numbers.parseCardinal('one'), 1)
 		self.assertEqual(Numbers.parseCardinal('two'), 2)
