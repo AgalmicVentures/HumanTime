@@ -89,6 +89,12 @@ ORDINALS = {
 }
 
 def parseCardinal(s):
+	"""
+	Parses a cardinal number such as "three" or "3".
+
+	:param s: str
+	:return: int
+	"""
 	cardinalValue = CARDINALS.get(s)
 	if cardinalValue is not None:
 		return cardinalValue
@@ -96,6 +102,12 @@ def parseCardinal(s):
 	return int(s)
 
 def parseOrdinal(s):
+	"""
+	Parses an ordinal number such as "third" or "3rd".
+
+	:param s: str
+	:return: int
+	"""
 	ordinalValue = ORDINALS.get(s)
 	if ordinalValue is not None:
 		return ordinalValue
@@ -103,6 +115,12 @@ def parseOrdinal(s):
 	return int(s)
 
 def parseNumber(s):
+	"""
+	Parses a number such as "three" or "3rd".
+
+	:param s: str
+	:return: int
+	"""
 	cardinalValue = CARDINALS.get(s)
 	if cardinalValue is not None:
 		return cardinalValue
@@ -122,49 +140,20 @@ DAY = datetime.timedelta(days=1)
 WEEK = datetime.timedelta(days=7)
 FORTNIGHT = datetime.timedelta(days=14)
 
-UNITS = {
-	'us': MICROSECOND,
-	'micro': MICROSECOND,
-	'micros': MICROSECOND,
-	'microsecond': MICROSECOND,
-	'microseconds': MICROSECOND,
-
-	'ms': MILLISECOND,
-	'millis': MILLISECOND,
-	'millisecond': MILLISECOND,
-	'milliseconds': MILLISECOND,
-
-	's': SECOND,
-	'sec': SECOND,
-	'second': SECOND,
-	'seconds': SECOND,
-
-	'm': MINUTE,
-	'min': MINUTE,
-	'minute': MINUTE,
-	'minutes': MINUTE,
-
-	'h': HOUR,
-	'hr': HOUR,
-	'hrs': HOUR,
-	'hour': HOUR,
-	'hours': HOUR,
-
-	'd': DAY,
-	'day': DAY,
-	'days': DAY,
-
-	'w': WEEK,
-	'wk': WEEK,
-	'wks': WEEK,
-	'week': WEEK,
-	'weeks': WEEK,
-
-	'fortnight': FORTNIGHT,
-	'fortnights': FORTNIGHT,
-
-	#Months and years require more of a lift than simple deltas
-}
+UNITS = {}
+for unit, names in [
+			(MICROSECOND, ['us', 'mic', 'mics', 'micro', 'micros', 'microsecond', 'microseconds']),
+			(MILLISECOND, ['ms', 'milli', 'millis', 'millisecond', 'milliseconds']),
+			(SECOND, ['s', 'sec', 'secs', 'second', 'seconds']),
+			(MINUTE, ['m', 'min', 'mins', 'minute', 'minutes']),
+			(HOUR, ['h', 'hr', 'hrs', 'hour', 'hours']),
+			(DAY, ['d', 'day', 'days']),
+			(WEEK, ['w', 'wk', 'wks', 'week', 'weeks']),
+			(FORTNIGHT, ['fortnight', 'fortnights']),
+			#Months and years require more of a lift than simple deltas
+		]:
+	for name in names:
+		UNITS[name] = unit
 
 def parseDurationTokens(ts):
 	"""
@@ -443,7 +432,6 @@ KEYWORDS = {
 
 	#Days of the week are added below
 
-	#TODO: week day, weekend
 	#TODO: holidays
 }
 KEYWORDS.update(DAY_OF_WEEK_ON_OR_AFTER)
@@ -463,12 +451,11 @@ def parseTimeTokens(ts, t=None):
 	Parses a time from some tokens.
 
 	:param ts: list String tokens
+	:param t: datetime.datetime or None Base time
 	:return: datetime.datetime
 	"""
-	#TODO: this/next/last
 	#TODO: business days
 	#TODO: of the month
-	#TODO: at noon/this time/etc.
 	n = len(ts)
 	if n == 0:
 		raise ValueError('Invalid time string - no tokens')
@@ -568,6 +555,7 @@ def parseTime(s, t=None):
 	Parses a time from a human string.
 
 	:param s: str Input
+	:param t: datetime.datetime or None Base time
 	:return: datetime.timedelta
 	"""
 	ts = tokenize(s)
