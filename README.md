@@ -13,7 +13,6 @@ Sidestep tedious and error-prone code in favor of a simple, English-based DSL fo
 	2019-05-06 00:00:00.000000 | tomorrow
 	2019-05-06 12:00:00.000000 | tomorrow at noon
 	2019-05-06 15:30:00.000000 | tomorrow at 3:30PM
-	2019-05-06 00:00:00.000000 | the day after today
 	2019-05-08 00:00:00.000000 | Wednesday
 	2019-05-05 22:32:28.493048 | 3 hours from now
 	2019-05-05 22:31:28.493048 | 1 minute before 3 hours from now
@@ -30,12 +29,9 @@ To install, simply use `pip`:
 	> python3 -m pip install HumanTime
 
 ## Usage
-Behold the simplicity and elegance of `HumanTime`:
+Behold the simplicity and elegance of `HumanTime` --
 
-	> python3
-	Python 3.7.2 (default, Feb 12 2019, 08:15:36)
-	[Clang 10.0.0 (clang-1000.11.45.5)] on darwin
-	Type "help", "copyright", "credits" or "license" for more information.
+### Times
 	>>> import HumanTime
 	>>> HumanTime.parseTime('now')
 	datetime.datetime(2019, 5, 5, 20, 38, 10, 119936)
@@ -54,7 +50,8 @@ Behold the simplicity and elegance of `HumanTime`:
 	>>> HumanTime.parseTime('Thurs after 2019-5-9')
 	datetime.datetime(2019, 5, 16, 0, 0)
 
-It handles durations too:
+### Durations
+Fixed-length durations, representable by a `datetime.timedelta`, may also be parsed:
 
 	>>> HumanTime.parseDuration('3 seconds')
 	datetime.timedelta(seconds=3)
@@ -64,6 +61,18 @@ It handles durations too:
 	datetime.timedelta(days=3)
 	>>> HumanTime.parseDuration('three weeks')
 	datetime.timedelta(days=21)
+
+### Numbers
+Simple numbers (those necessary for parsing times) can also be parsed separately:
+
+	>>> HumanTime.parseCardinal('four')
+	4
+	>>> HumanTime.parseOrdinal('fourth')
+	4
+	>>> HumanTime.parseNumber('20th')
+	20
+	>>> HumanTime.parseNumber('45')
+	45
 
 ## Development
 
