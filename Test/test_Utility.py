@@ -31,13 +31,23 @@ class UtilityTest(unittest.TestCase):
 
 	def test_tokenize_empty(self):
 		self.assertEqual(Utility.tokenize(''), [])
+
+	def test_tokenize_blank(self):
+		self.assertEqual(Utility.tokenize(' '), [])
+		self.assertEqual(Utility.tokenize('\t'), [])
 		self.assertEqual(Utility.tokenize('     '), [])
+		self.assertEqual(Utility.tokenize(' \t  \t  '), [])
 
 	def test_tokenize_single(self):
 		self.assertEqual(Utility.tokenize('now'), ['now'])
+		self.assertEqual(Utility.tokenize('now\n'), ['now'])
 		self.assertEqual(Utility.tokenize('now   '), ['now'])
 		self.assertEqual(Utility.tokenize('    now'), ['now'])
-		self.assertEqual(Utility.tokenize('  now  '), ['now'])
+		self.assertEqual(Utility.tokenize('  now  \n'), ['now'])
 
 	def test_tokenize(self):
 		self.assertEqual(Utility.tokenize('3 hours from now'), ['3', 'hours', 'from', 'now'])
+
+	def test_tokenize_whitespace(self):
+		self.assertEqual(Utility.tokenize('  3     hours  from   now   '), ['3', 'hours', 'from', 'now'])
+		self.assertEqual(Utility.tokenize('3 hours\nfrom\tnow'), ['3', 'hours', 'from', 'now'])

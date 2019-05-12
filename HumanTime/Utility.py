@@ -19,19 +19,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import re
+
 def tokenize(s):
 	"""
-	Tokenizes a human time string for parsing.
+	Tokenizes a human string for parsing.
 
 	:param s: str Input
 	:return: list String tokens
 	"""
 	tokens = [
 		token
-		for token in (
-			t.strip()
-			for t in s.lower().split(' ')
-		)
+		for token in re.split(r'\s+', s.lower())
 		if token != ''
 	]
 	return tokens
