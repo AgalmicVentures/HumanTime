@@ -25,7 +25,16 @@ from HumanTime.Durations import parseDurationTokens, DAY, WEEK
 from HumanTime.Numbers import parseNumber
 from HumanTime.Utility import tokenize
 
-##### Times #####
+##### Standard Time Formats #####
+
+#Values returned by .weekday()
+MONDAY = 0
+TUESDAY = 1
+WEDNESDAY = 2
+THURSDAY = 3
+FRIDAY = 4
+SATURDAY = 5
+SUNDAY = 6
 
 def parseTimeOfDay(s):
 	"""
@@ -82,6 +91,8 @@ def parseTimestamp(s):
 			pass
 	raise ValueError('Invalid timestamp: "%s"' % str(s))
 
+##### Generators #####
+
 def now(t=None):
 	"""
 	Returns now, or the "current" time (allowing relative calls).
@@ -126,15 +137,6 @@ def yesterday(t=None):
 	:return: datetime.datetime
 	"""
 	return today(t) - DAY
-
-#Values returned by .weekday()
-MONDAY = 0
-TUESDAY = 1
-WEDNESDAY = 2
-THURSDAY = 3
-FRIDAY = 4
-SATURDAY = 5
-SUNDAY = 6
 
 def dayOfWeekOnOrAfter(t, dayOfWeek):
 	"""
@@ -190,23 +192,6 @@ def weekdayOnOrBefore(t):
 		t -= datetime.timedelta(days=1)
 	return t
 
-DAY_OF_WEEK_ON_OR_AFTER = {}
-DAY_OF_WEEK_ON_OR_BEFORE = {}
-for dayOfWeek, names in [
-			(MONDAY, ['mon', 'monday', 'mondays']),
-			(TUESDAY, ['tue', 'tues', 'tuesday', 'tuesdays']),
-			(WEDNESDAY, ['wed', 'weds', 'wednesday', 'wednesdays']),
-			(THURSDAY, ['thu', 'thur', 'thurs', 'thursday', 'thursdays']),
-			(FRIDAY, ['fri', 'friday', 'fridays']),
-			(SATURDAY, ['sat', 'saturday', 'saturdays']),
-			(SUNDAY, ['sun', 'sunday', 'sundays']),
-		]:
-	afterFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrAfter(t, d)
-	beforeFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrBefore(t, d)
-	for name in names:
-		DAY_OF_WEEK_ON_OR_AFTER[name] = afterFunction
-		DAY_OF_WEEK_ON_OR_BEFORE[name] = beforeFunction
-
 def monthOnOrAfter(t, month):
 	"""
 	Returns the January/February/etc. on or after the given date.
@@ -232,6 +217,25 @@ def monthOnOrBefore(t, month):
 		raise ValueError('Month must be in [1, 12]')
 	t = now(t)
 	return datetime.datetime(t.year - 1 if t.month < month else t.year, month, 1)
+
+##### Parsing #####
+
+DAY_OF_WEEK_ON_OR_AFTER = {}
+DAY_OF_WEEK_ON_OR_BEFORE = {}
+for dayOfWeek, names in [
+			(MONDAY, ['mon', 'monday', 'mondays']),
+			(TUESDAY, ['tue', 'tues', 'tuesday', 'tuesdays']),
+			(WEDNESDAY, ['wed', 'weds', 'wednesday', 'wednesdays']),
+			(THURSDAY, ['thu', 'thur', 'thurs', 'thursday', 'thursdays']),
+			(FRIDAY, ['fri', 'friday', 'fridays']),
+			(SATURDAY, ['sat', 'saturday', 'saturdays']),
+			(SUNDAY, ['sun', 'sunday', 'sundays']),
+		]:
+	afterFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrAfter(t, d)
+	beforeFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrBefore(t, d)
+	for name in names:
+		DAY_OF_WEEK_ON_OR_AFTER[name] = afterFunction
+		DAY_OF_WEEK_ON_OR_BEFORE[name] = beforeFunction
 
 MONTH_ON_OR_AFTER = {}
 MONTH_ON_OR_BEFORE = {}
