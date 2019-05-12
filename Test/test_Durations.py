@@ -32,16 +32,26 @@ class DurationsTest(unittest.TestCase):
 	def test_parseDuration_empty(self):
 		with self.assertRaises(ValueError):
 			Durations.parseDuration('')
+		with self.assertRaises(ValueError):
+			Durations.parseDuration('     ')
 
-	def test_parseDuration(self):
-		self.assertEqual(Durations.parseDuration('second'), datetime.timedelta(seconds=1))
+	def test_parseDuration_singleUnit(self):
+		self.assertEqual(Durations.parseDuration('sec'), datetime.timedelta(seconds=1))
+		self.assertEqual(Durations.parseDuration('kilosecond'), datetime.timedelta(seconds=1000))
 		self.assertEqual(Durations.parseDuration('week'), datetime.timedelta(days=7))
 
+	def test_parseDuration_singleUnit_invalid(self):
+		with self.assertRaises(ValueError):
+			Durations.parseDuration('asdf')
+
+	def test_parseDuration_ordinals(self):
 		self.assertEqual(Durations.parseDuration('3 minutes'), datetime.timedelta(seconds=180))
 		self.assertEqual(Durations.parseDuration('180 seconds'), datetime.timedelta(seconds=180))
 
 		self.assertEqual(Durations.parseDuration('3 days'), datetime.timedelta(days=3))
 		self.assertEqual(Durations.parseDuration('72 hours'), datetime.timedelta(days=3))
+
+		self.assertEqual(Durations.parseDuration('3 megaseconds').total_seconds(), 3000000)
 
 	def test_parseDuration_cardinals(self):
 		self.assertEqual(Durations.parseDuration('three seconds'), datetime.timedelta(seconds=3))

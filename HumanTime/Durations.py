@@ -27,6 +27,9 @@ from HumanTime.Utility import tokenize
 MICROSECOND = datetime.timedelta(microseconds=1)
 MILLISECOND = datetime.timedelta(microseconds=1000)
 SECOND = datetime.timedelta(seconds=1)
+KILOSECOND = datetime.timedelta(seconds=1000)
+MEGASECOND = datetime.timedelta(seconds=1000000)
+
 MINUTE = datetime.timedelta(seconds=60)
 HOUR = datetime.timedelta(hours=1)
 DAY = datetime.timedelta(days=1)
@@ -38,6 +41,9 @@ for unit, names in [
 			(MICROSECOND, ['us', 'mic', 'mics', 'micro', 'micros', 'microsecond', 'microseconds']),
 			(MILLISECOND, ['ms', 'milli', 'millis', 'millisecond', 'milliseconds']),
 			(SECOND, ['s', 'sec', 'secs', 'second', 'seconds']),
+			(KILOSECOND, ['ks', 'ksec', 'ksecs', 'kilosecond', 'kiloseconds']),
+			(MEGASECOND, ['megasecond', 'megaseconds']),
+
 			(MINUTE, ['m', 'min', 'mins', 'minute', 'minutes']),
 			(HOUR, ['h', 'hr', 'hrs', 'hour', 'hours']),
 			(DAY, ['d', 'day', 'days']),
