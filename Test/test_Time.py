@@ -194,32 +194,15 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(d.month, 5)
 
 	def test_parseTime_weekdayOffsets(self):
-		monday = Time.parseTime('Monday after 2019-5-5')
-		self.assertEqual(monday, datetime.datetime(2019, 5, 6))
-
-		monday = Time.parseTime('Monday after 2019-5-6')
-		self.assertEqual(monday, datetime.datetime(2019, 5, 13))
-
-		monday = Time.parseTime('2 Mondays after 2019-5-5')
-		self.assertEqual(monday, datetime.datetime(2019, 5, 13))
-
-		monday = Time.parseTime('2 Mon after 2019-5-6')
-		self.assertEqual(monday, datetime.datetime(2019, 5, 20))
-
-		tuesday = Time.parseTime('Tuesday before 2019-5-5')
-		self.assertEqual(tuesday, datetime.datetime(2019, 4, 30))
-
-		monday = Time.parseTime('Monday before 2019-5-6')
-		self.assertEqual(monday, datetime.datetime(2019, 4, 29))
-
-		monday = Time.parseTime('3 Mondays before 2019-5-6')
-		self.assertEqual(monday, datetime.datetime(2019, 4, 15))
-
-		monday = Time.parseTime('the third Monday before 2019-5-6')
-		self.assertEqual(monday, datetime.datetime(2019, 4, 15))
-
-		monday = Time.parseTime('Monday before 2019-5-7')
-		self.assertEqual(monday, datetime.datetime(2019, 5, 6))
+		self.assertEqual(Time.parseTime('Monday after 2019-5-5'), datetime.datetime(2019, 5, 6))
+		self.assertEqual(Time.parseTime('Monday after 2019-5-6'), datetime.datetime(2019, 5, 13))
+		self.assertEqual(Time.parseTime('2 Mondays after 2019-5-5'), datetime.datetime(2019, 5, 13))
+		self.assertEqual(Time.parseTime('2 Mon after 2019-5-6'), datetime.datetime(2019, 5, 20))
+		self.assertEqual(Time.parseTime('Tuesday before 2019-5-5'), datetime.datetime(2019, 4, 30))
+		self.assertEqual(Time.parseTime('Monday before 2019-5-6'), datetime.datetime(2019, 4, 29))
+		self.assertEqual(Time.parseTime('3 Mondays before 2019-5-6'), datetime.datetime(2019, 4, 15))
+		self.assertEqual(Time.parseTime('the third Monday before 2019-5-6'), datetime.datetime(2019, 4, 15))
+		self.assertEqual(Time.parseTime('Monday before 2019-5-7'), datetime.datetime(2019, 5, 6))
 
 	def test_parseTime_monthOffsets(self):
 		self.assertEqual(Time.parseTime('January after 2019-5-5'), datetime.datetime(2020, 1, 1))
