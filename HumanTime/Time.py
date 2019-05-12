@@ -279,6 +279,14 @@ PREPOSITION_SIGNS = {
 	'until': -1,
 }
 
+SIGNS = {
+	'last': -1,
+	'next': 1,
+	'prev': -1,
+	'previous': -1,
+	'prior': -1,
+}
+
 def parseTimeTokens(ts, t=None):
 	"""
 	Parses a time from some tokens.
@@ -288,7 +296,7 @@ def parseTimeTokens(ts, t=None):
 	:return: datetime.datetime
 	"""
 	#TODO: business days
-	#TODO: of the month
+	#TODO: of the month/year
 	n = len(ts)
 	if n == 0:
 		raise ValueError('Invalid time string - no tokens')
@@ -324,10 +332,7 @@ def parseTimeTokens(ts, t=None):
 		t0 = parseTimeTokens(ts[i+1:], t=t)
 		durationTokens = ts[:i]
 	elif n == 2:
-		sign = {
-			'last': -1,
-			'next': 1,
-		}.get(ts[0])
+		sign = SIGNS.get(ts[0])
 		if sign is not None:
 			t0 = now(t)
 			durationTokens = ts[1:2]
@@ -335,6 +340,9 @@ def parseTimeTokens(ts, t=None):
 	if sign is not None:
 		unit = durationTokens[-1]
 		count = parseNumber(ts[0]) if len(durationTokens) > 1 else 1
+
+		#First, handle special units that require more than simple addition --
+		#weekdays, days of the week, months, years.
 
 		if unit in {'weekday', 'weekdays'}:
 			weekday = weekdayOnOrAfter if sign == 1 else weekdayOnOrBefore
