@@ -25,7 +25,7 @@ from HumanTime.Durations import parseDurationTokens, DAY, WEEK
 from HumanTime.Numbers import parseNumber
 from HumanTime.Utility import tokenize
 
-##### Standard Time Formats #####
+##### Standard Time Format Helpers #####
 
 #Values returned by .weekday()
 MONDAY = 0
@@ -49,15 +49,19 @@ def parseTimeOfDay(s):
 		return datetime.time(12, 0, 0)
 
 	formats = [
-		'%I:%M:%S.%f%p',
-		'%I:%M:%S%p',
-		'%I:%M%p',
 		'%I%p',
+		'%I:%M%p',
+		'%I:%M:%S%p',
+		'%I:%M:%S.%f%p',
 
-		'%H:%M:%S.%f',
-		'%H:%M:%S',
-		'%H:%M',
 		'%H',
+		'%H:%M',
+		'%H:%M:%S',
+		'%H:%M:%S.%f',
+
+		'%H%M',
+		'%H%M%S',
+		'%H%M%S.%f',
 	]
 	for format in formats:
 		try:
@@ -75,14 +79,22 @@ def parseTimestamp(s):
 	"""
 	formats = [
 		'%Y',
-		'%Y/%m',
-		'%Y/%m/%d',
+		#XXX: remove for now, could cause confusion '%Y/%m',
+		#XXX: remove for now, could cause confusion '%Y/%m/%d',
 		'%Y-%m',
 		'%Y-%m-%d',
 		'%Y_%m',
 		'%Y_%m_%d',
 		'%Y%m',
 		'%Y%m%d',
+
+		'%Y%m%d_%H%M',
+		'%Y%m%d_%H%M%S',
+		'%Y%m%d_%H%M%S.%f',
+		'%Y%m%dt%H%M%S',
+		'%Y%m%dt%H%M%S.%f',
+		'%Y%m%dz%H%M%S',
+		'%Y%m%dz%H%M%S.%f',
 	]
 	for format in formats:
 		try:
@@ -224,9 +236,9 @@ DAY_OF_WEEK_ON_OR_AFTER = {}
 DAY_OF_WEEK_ON_OR_BEFORE = {}
 for dayOfWeek, names in [
 			(MONDAY, ['mon', 'monday', 'mondays']),
-			(TUESDAY, ['tue', 'tues', 'tuesday', 'tuesdays']),
+			(TUESDAY, ['tu', 'tue', 'tues', 'tuesday', 'tuesdays']),
 			(WEDNESDAY, ['wed', 'weds', 'wednesday', 'wednesdays']),
-			(THURSDAY, ['thu', 'thur', 'thurs', 'thursday', 'thursdays']),
+			(THURSDAY, ['th', 'thu', 'thur', 'thurs', 'thursday', 'thursdays']),
 			(FRIDAY, ['fri', 'friday', 'fridays']),
 			(SATURDAY, ['sat', 'saturday', 'saturdays']),
 			(SUNDAY, ['sun', 'sunday', 'sundays']),
@@ -266,8 +278,6 @@ KEYWORDS = {
 	'today': today,
 	'tomorrow': tomorrow,
 	'yesterday': yesterday,
-
-	#Days of the week are added below
 
 	#TODO: holidays
 }
@@ -348,7 +358,7 @@ def parseTimeTokens(ts, t=None):
 		#First, handle special units that require more than simple addition --
 		#weekdays, days of the week, months, years.
 
-		if unit in {'weekday', 'weekdays'}:
+		if unit in {'wkdy', 'weekday', 'weekdays'}:
 			weekday = weekdayOnOrAfter if sign == 1 else weekdayOnOrBefore
 			t1 = t0
 			for i in range(count):
