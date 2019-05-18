@@ -235,6 +235,7 @@ class TimeTest(unittest.TestCase):
 		#But the current day of the week makes three (3)
 		self.assertEqual(Time.parseTime('last Weds', t=t), datetime.datetime(2019, 5, 1))
 		self.assertEqual(Time.parseTime('Weds', t=t), datetime.datetime(2019, 5, 8))
+		self.assertEqual(Time.parseTime('this Weds', t=t), datetime.datetime(2019, 5, 8))
 		self.assertEqual(Time.parseTime('next Weds', t=t), datetime.datetime(2019, 5, 15))
 
 	def test_parseTime_nextLast_weekday_atTime(self):
@@ -244,6 +245,7 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('last Monday at noon', t=t), datetime.datetime(2019, 5, 6, 12))
 		self.assertEqual(Time.parseTime('last Monday at 3PM', t=t), datetime.datetime(2019, 5, 6, 15))
 		self.assertEqual(Time.parseTime('Monday at 7', t=t), datetime.datetime(2019, 5, 13, 7))
+		self.assertEqual(Time.parseTime('this Monday at 7', t=t), datetime.datetime(2019, 5, 13, 7))
 		self.assertEqual(Time.parseTime('next Monday at 12:30:01', t=t), datetime.datetime(2019, 5, 13, 12, 30, 1))
 
 	def test_parseTime_nextLast_month(self):
@@ -252,9 +254,11 @@ class TimeTest(unittest.TestCase):
 		#Most days of the week result in only two (2) distinct dates...
 		self.assertEqual(Time.parseTime('last May', t=t), datetime.datetime(2018, 5, 1))
 		self.assertEqual(Time.parseTime('May', t=t), datetime.datetime(2019, 5, 1))
+		self.assertEqual(Time.parseTime('this May', t=t), datetime.datetime(2019, 5, 1))
 		self.assertEqual(Time.parseTime('next May', t=t), datetime.datetime(2020, 5, 1))
 
 	def test_parseTime_nextLast_weekday(self):
 		t = datetime.datetime(2019, 5, 11, 13, 30)
 		self.assertEqual(Time.parseTime('last weekday', t=t), datetime.datetime(2019, 5, 10))
+		self.assertEqual(Time.parseTime('this weekday', t=t), datetime.datetime(2019, 5, 13))
 		self.assertEqual(Time.parseTime('next weekday', t=t), datetime.datetime(2019, 5, 13))

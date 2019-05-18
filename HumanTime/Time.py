@@ -299,6 +299,7 @@ SIGNS = {
 	'prev': -1,
 	'previous': -1,
 	'prior': -1,
+	'this': 0,
 }
 
 def parseTimeTokens(ts, t=None):
@@ -359,18 +360,18 @@ def parseTimeTokens(ts, t=None):
 		#weekdays, days of the week, months, years.
 
 		if unit in {'wkdy', 'weekday', 'weekdays'}:
-			weekday = weekdayOnOrAfter if sign == 1 else weekdayOnOrBefore
+			weekday = weekdayOnOrBefore if sign == -1 else weekdayOnOrAfter
 			t1 = t0
 			for i in range(count):
 				t1 = weekday(t=t1 + sign * DAY)
 			return t1
 
-		dayOfWeek = (DAY_OF_WEEK_ON_OR_AFTER if sign == 1 else DAY_OF_WEEK_ON_OR_BEFORE).get(unit)
+		dayOfWeek = (DAY_OF_WEEK_ON_OR_BEFORE if sign == -1 else DAY_OF_WEEK_ON_OR_AFTER).get(unit)
 		if dayOfWeek is not None:
 			#This is a strict after/before so add/subtract 1 day
 			return dayOfWeek(t=t0 + sign * DAY) + ((count - 1) * sign) * WEEK
 
-		month = (MONTH_ON_OR_AFTER if sign == 1 else MONTH_ON_OR_BEFORE).get(unit)
+		month = (MONTH_ON_OR_BEFORE if sign == -1 else MONTH_ON_OR_AFTER).get(unit)
 		if month is not None:
 			endMonth = 12 if sign == 1 else 1
 			t1 = datetime.datetime(t0.year + (sign if t0.month == endMonth else 0), (t0.month + sign) % 12, 1)
