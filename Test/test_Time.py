@@ -125,7 +125,6 @@ class TimeTest(unittest.TestCase):
 		self.assertLessEqual(now, t2)
 
 	def test_parseTime_offsets(self):
-		#Basic month, year offsets
 		self.assertEqual(Time.parseTime('1 year after 2019-2-1'), datetime.datetime(2020, 2, 1))
 		self.assertEqual(Time.parseTime('12 months after 2019-2-1'), datetime.datetime(2020, 2, 1))
 
@@ -133,8 +132,13 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('1 year after 2020-2-28'), datetime.datetime(2021, 2, 28))
 		self.assertEqual(Time.parseTime('12 months after 2020-2-28'), datetime.datetime(2021, 2, 28))
 
+	def test_parseTime_offsetsInvalid(self):
+		with self.assertRaises(ValueError):
+			self.assertEqual(Time.parseTime('1 year after'), datetime.datetime(2020, 2, 1))
+		with self.assertRaises(ValueError):
+			self.assertEqual(Time.parseTime('12 months before'), datetime.datetime(2020, 2, 1))
+
 	def test_parseTime_cardinalOffsets(self):
-		#Basic month, year offsets
 		self.assertEqual(Time.parseTime('an hour after 2019-2-1'), datetime.datetime(2019, 2, 1, 1))
 		self.assertEqual(Time.parseTime('one year after 2019-2-1'), datetime.datetime(2020, 2, 1))
 		self.assertEqual(Time.parseTime('twelve months after 2019-2-1'), datetime.datetime(2020, 2, 1))
@@ -215,6 +219,10 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('6 weekdays before now', t=t), datetime.datetime(2019, 5, 3))
 		self.assertEqual(Time.parseTime('5th weekday after now', t=t), datetime.datetime(2019, 5, 17))
 		self.assertEqual(Time.parseTime('6 weekdays after now', t=t), datetime.datetime(2019, 5, 20))
+
+	def test_parseTime_calendarDayOffsets(self):
+		self.assertEqual(Time.parseTime('calendar day after 2019-5-5'), datetime.datetime(2019, 5, 6))
+		self.assertEqual(Time.parseTime('5 calendar days after 2019-5-5'), datetime.datetime(2019, 5, 10))
 
 	def test_parseTime_ago(self):
 		t = datetime.datetime(2019, 5, 6, 13, 30)

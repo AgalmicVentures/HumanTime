@@ -337,7 +337,7 @@ def parseTimeTokens(ts, t=None):
 		return t0.replace(hour=time.hour, minute=time.minute, second=time.second, microsecond=time.microsecond)
 
 	#D after/etc. T
-	for i in range(1, min(3, len(ts))):
+	for i in range(1, min(4, len(ts))):
 		sign = PREPOSITION_SIGNS.get(ts[i])
 		if sign:
 			break
@@ -353,6 +353,15 @@ def parseTimeTokens(ts, t=None):
 			durationTokens = ts[1:2]
 
 	if sign is not None:
+		if len(durationTokens) > 1:
+			unit = (durationTokens[-2], durationTokens[-1])
+			count = parseNumber(ts[0]) if len(durationTokens) > 2 else 1
+
+			if unit in {('cal', 'day'), ('cal', 'days'), ('calendar', 'day'), ('calendar', 'days')}:
+				return t0 + sign * count * DAY
+
+			#TODO: business days
+
 		unit = durationTokens[-1]
 		count = parseNumber(ts[0]) if len(durationTokens) > 1 else 1
 
