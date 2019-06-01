@@ -29,6 +29,26 @@ class UtilityTest(unittest.TestCase):
 	Tests for functions in the Utility module.
 	"""
 
+	def test_now(self):
+		t1 = datetime.datetime.now()
+		now = Utility.now()
+		t2 = datetime.datetime.now()
+
+		self.assertLessEqual(t1, now)
+		self.assertLessEqual(now, t2)
+
+		nowT2 = Utility.now(t=t2)
+		nowT1 = Utility.now(t=t1)
+		self.assertEqual(t1, nowT1)
+		self.assertEqual(t2, nowT2)
+
+	def test_today(self):
+		today = Utility.today()
+		self.assertEqual(today.hour, 0)
+		self.assertEqual(today.minute, 0)
+		self.assertEqual(today.second, 0)
+		self.assertEqual(today.microsecond, 0)
+
 	def test_tokenize_empty(self):
 		self.assertEqual(Utility.tokenize(''), [])
 

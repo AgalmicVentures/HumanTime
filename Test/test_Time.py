@@ -38,32 +38,12 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTimestamp('2019-04-02'), datetime.datetime(2019, 4, 2))
 		self.assertEqual(Time.parseTimestamp('2016-06-03'), datetime.datetime(2016, 6, 3))
 
-	def test_now(self):
-		t1 = datetime.datetime.now()
-		now = Time.now()
-		t2 = datetime.datetime.now()
-
-		self.assertLessEqual(t1, now)
-		self.assertLessEqual(now, t2)
-
-		nowT2 = Time.now(t=t2)
-		nowT1 = Time.now(t=t1)
-		self.assertEqual(t1, nowT1)
-		self.assertEqual(t2, nowT2)
-
 	def test_noon(self):
 		noon = Time.noon()
 		self.assertEqual(noon.hour, 12)
 		self.assertEqual(noon.minute, 0)
 		self.assertEqual(noon.second, 0)
 		self.assertEqual(noon.microsecond, 0)
-
-	def test_today(self):
-		today = Time.today()
-		self.assertEqual(today.hour, 0)
-		self.assertEqual(today.minute, 0)
-		self.assertEqual(today.second, 0)
-		self.assertEqual(today.microsecond, 0)
 
 	def test_tomorrow(self):
 		tomorrow = Time.tomorrow()
@@ -78,17 +58,6 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(yesterday.minute, 0)
 		self.assertEqual(yesterday.second, 0)
 		self.assertEqual(yesterday.microsecond, 0)
-
-	def test_dayOfWeekOnOrAfter(self):
-		self.assertEqual(Time.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 5), Time.SUNDAY), datetime.datetime(2019, 5, 5))
-		self.assertEqual(Time.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 5), Time.MONDAY), datetime.datetime(2019, 5, 6))
-
-		self.assertEqual(Time.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 6), Time.SUNDAY), datetime.datetime(2019, 5, 12))
-		self.assertEqual(Time.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 6), Time.MONDAY), datetime.datetime(2019, 5, 6))
-
-	def test_dayOfWeekOnOrBefore(self):
-		self.assertEqual(Time.dayOfWeekOnOrBefore(datetime.datetime(2019, 5, 6), Time.SUNDAY), datetime.datetime(2019, 5, 5))
-		self.assertEqual(Time.dayOfWeekOnOrBefore(datetime.datetime(2019, 5, 6), Time.MONDAY), datetime.datetime(2019, 5, 6))
 
 	def test_monthOnOrAfter(self):
 		self.assertEqual(Time.monthOnOrAfter(datetime.datetime(2019, 5, 6), 4), datetime.datetime(2020, 4, 1))

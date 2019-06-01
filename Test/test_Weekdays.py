@@ -20,36 +20,22 @@
 # SOFTWARE.
 
 import datetime
-import re
+import unittest
 
-def now(t=None):
-	"""
-	Returns now, or the "current" time (allowing relative calls).
+from HumanTime import Weekdays
 
-	:param t: datetime.datetime Optional current time for relative calls.
-	:return: datetime.datetime
+class WeekdaysTest(unittest.TestCase):
 	"""
-	return datetime.datetime.now() if t is None else t
+	Tests for functions in the Weekdays module.
+	"""
 
-def today(t=None):
-	"""
-	Returns today at 0:00.
+	def test_dayOfWeekOnOrAfter(self):
+		self.assertEqual(Weekdays.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 5), Weekdays.SUNDAY), datetime.datetime(2019, 5, 5))
+		self.assertEqual(Weekdays.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 5), Weekdays.MONDAY), datetime.datetime(2019, 5, 6))
 
-	:param t: datetime.datetime Optional current time for relative calls.
-	:return: datetime.datetime
-	"""
-	return now(t).replace(hour=0, minute=0, second=0, microsecond=0)
+		self.assertEqual(Weekdays.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 6), Weekdays.SUNDAY), datetime.datetime(2019, 5, 12))
+		self.assertEqual(Weekdays.dayOfWeekOnOrAfter(datetime.datetime(2019, 5, 6), Weekdays.MONDAY), datetime.datetime(2019, 5, 6))
 
-def tokenize(s):
-	"""
-	Tokenizes a human string for parsing.
-
-	:param s: str Input
-	:return: list String tokens
-	"""
-	tokens = [
-		token
-		for token in re.split(r'\s+', s.lower())
-		if token != ''
-	]
-	return tokens
+	def test_dayOfWeekOnOrBefore(self):
+		self.assertEqual(Weekdays.dayOfWeekOnOrBefore(datetime.datetime(2019, 5, 6), Weekdays.SUNDAY), datetime.datetime(2019, 5, 5))
+		self.assertEqual(Weekdays.dayOfWeekOnOrBefore(datetime.datetime(2019, 5, 6), Weekdays.MONDAY), datetime.datetime(2019, 5, 6))

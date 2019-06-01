@@ -25,16 +25,12 @@ from HumanTime.Durations import parseDurationTokens, DAY, WEEK
 from HumanTime.Numbers import parseNumber
 from HumanTime.Utility import tokenize
 
-##### Standard Time Format Helpers #####
+#Actually bring in these symbols
+from HumanTime.Holidays import *
+from HumanTime.Weekdays import *
+from HumanTime.Utility import now, today
 
-#Values returned by .weekday()
-MONDAY = 0
-TUESDAY = 1
-WEDNESDAY = 2
-THURSDAY = 3
-FRIDAY = 4
-SATURDAY = 5
-SUNDAY = 6
+##### Standard Time Format Helpers #####
 
 def parseTimeOfDay(s):
 	"""
@@ -105,15 +101,6 @@ def parseTimestamp(s):
 
 ##### Generators #####
 
-def now(t=None):
-	"""
-	Returns now, or the "current" time (allowing relative calls).
-
-	:param t: datetime.datetime Optional current time for relative calls.
-	:return: datetime.datetime
-	"""
-	return datetime.datetime.now() if t is None else t
-
 def noon(t=None):
 	"""
 	Returns today at 12:00.
@@ -122,15 +109,6 @@ def noon(t=None):
 	:return: datetime.datetime
 	"""
 	return now(t).replace(hour=12, minute=0, second=0, microsecond=0)
-
-def today(t=None):
-	"""
-	Returns today at 0:00.
-
-	:param t: datetime.datetime Optional current time for relative calls.
-	:return: datetime.datetime
-	"""
-	return now(t).replace(hour=0, minute=0, second=0, microsecond=0)
 
 def tomorrow(t=None):
 	"""
@@ -149,60 +127,6 @@ def yesterday(t=None):
 	:return: datetime.datetime
 	"""
 	return today(t) - DAY
-
-def dayOfWeekOnOrAfter(t, dayOfWeek):
-	"""
-	Returns the Monday/Tuesday/etc. on or after the given date.
-
-	:param t: datetime.datetime
-	:param dayOfWeek: int returned by .weekday()
-	:return: datetime.datetime
-	"""
-	if dayOfWeek < 0 or 7 <= dayOfWeek:
-		raise ValueError('Day of week must be in [0, 6] (MONDAY-SUNDAY)')
-	t = today(t)
-	while t.weekday() != dayOfWeek:
-		t += datetime.timedelta(days=1)
-	return t
-
-def dayOfWeekOnOrBefore(t, dayOfWeek):
-	"""
-	Returns the Monday/Tuesday/etc. on or before the given date.
-
-	:param t: datetime.datetime
-	:param dayOfWeek: int returned by .weekday()
-	:return: datetime.datetime
-	"""
-	if dayOfWeek < 0 or 7 <= dayOfWeek:
-		raise ValueError('Day of week must be in [0, 6] (MONDAY-SUNDAY)')
-	t = today(t)
-	while t.weekday() != dayOfWeek:
-		t -= datetime.timedelta(days=1)
-	return t
-
-def weekdayOnOrAfter(t):
-	"""
-	Returns the first weekday on or after a given time.
-
-	:param t: datetime.datetime
-	:return: datetime.datetime
-	"""
-	t = today(t)
-	while t.weekday() >= SATURDAY:
-		t += datetime.timedelta(days=1)
-	return t
-
-def weekdayOnOrBefore(t):
-	"""
-	Returns the first weekday on or before a given time.
-
-	:param t: datetime.datetime
-	:return: datetime.datetime
-	"""
-	t = today(t)
-	while t.weekday() >= SATURDAY:
-		t -= datetime.timedelta(days=1)
-	return t
 
 def monthOnOrAfter(t, month):
 	"""
@@ -353,15 +277,20 @@ def parseTimeTokens(ts, t=None):
 			durationTokens = ts[1:2]
 
 	if sign is not None:
+		#Try two token units first
 		if len(durationTokens) > 1:
-			unit = (durationTokens[-2], durationTokens[-1])
+			unit0 = durationTokens[-2]
+			unit1 = durationTokens[-1]
 			count = parseNumber(ts[0]) if len(durationTokens) > 2 else 1
 
-			if unit in {('cal', 'day'), ('cal', 'days'), ('calendar', 'day'), ('calendar', 'days')}:
-				return t0 + sign * count * DAY
+			if unit1 in {'d', 'day', 'days'}:
+				if unit0 in {'cal', 'calendar'}:
+					return t0 + sign * count * DAY
 
-			#TODO: business days
+				if unit0 in {'b', 'bus', 'business'}:
+					pass #TODO: business days
 
+		#Otherwise, single token units
 		unit = durationTokens[-1]
 		count = parseNumber(ts[0]) if len(durationTokens) > 1 else 1
 
