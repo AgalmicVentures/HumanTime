@@ -54,5 +54,6 @@ class DurationsTest(unittest.TestCase):
 		self.assertEqual(Durations.parseDuration('3 megaseconds').total_seconds(), 3000000)
 
 	def test_parseDuration_cardinals(self):
+		self.assertEqual(Durations.parseDuration('couple seconds'), datetime.timedelta(seconds=2))
 		self.assertEqual(Durations.parseDuration('three seconds'), datetime.timedelta(seconds=3))
 		self.assertEqual(Durations.parseDuration('ten days'), datetime.timedelta(days=10))

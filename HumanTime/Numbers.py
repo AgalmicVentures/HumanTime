@@ -53,6 +53,8 @@ CARDINALS = {
 	'a': 1,
 	'an': 1,
 	'the': 1,
+	'couple': 2,
+	'few': 3,
 }
 
 ORDINALS = {
