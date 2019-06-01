@@ -288,7 +288,11 @@ def parseTimeTokens(ts, t=None):
 					return t0 + sign * count * DAY
 
 				if unit0 in {'b', 'bus', 'business'}:
-					pass #TODO: business days
+					businessDay = businessDayOnOrBefore if sign == -1 else businessDayOnOrAfter
+					t1 = t0
+					for i in range(count):
+						t1 = businessDay(t=t1 + sign * DAY)
+					return t1
 
 		#Otherwise, single token units
 		unit = durationTokens[-1]

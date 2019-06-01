@@ -22,6 +22,8 @@ Sidestep tedious and error-prone code in favor of a simple, English-based DSL fo
 	2021-02-28 00:00:00.000000 | 1 year after 2020-02-29
 	2019-01-01 00:00:02.000000 | second second after 2019-01-01
 	2019-06-16 00:00:00.000000 | 1 month after Thurs after 2019-5-9
+	2019-07-05 00:00:00.000000 | business day after 2019-7-3
+	2019-07-08 00:00:00.000000 | couple bus days after 2019-7-3
 
 ## Installation
 To install, simply use `pip`:
@@ -49,6 +51,8 @@ Behold the simplicity and elegance of `HumanTime` --
 	datetime.datetime(2019, 5, 8, 0, 0)
 	>>> HumanTime.parseTime('Thurs after 2019-5-9')
 	datetime.datetime(2019, 5, 16, 0, 0)
+	>>> HumanTime.parseTime('2 business days before 2019-7-8')
+	datetime.datetime(2019, 7, 3, 0, 0)
 
 ### Durations
 Fixed-length durations, representable by a `datetime.timedelta`, may also be parsed:

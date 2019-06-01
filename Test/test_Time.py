@@ -193,6 +193,16 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('calendar day after 2019-5-5'), datetime.datetime(2019, 5, 6))
 		self.assertEqual(Time.parseTime('5 calendar days after 2019-5-5'), datetime.datetime(2019, 5, 10))
 
+	def test_parseTime_businessDayOffsets(self):
+		self.assertEqual(Time.parseTime('business day after 2019-7-3'), datetime.datetime(2019, 7, 5))
+		self.assertEqual(Time.parseTime('couple business days after 2019-7-2'), datetime.datetime(2019, 7, 5))
+		self.assertEqual(Time.parseTime('2 bus days after 2019-7-3'), datetime.datetime(2019, 7, 8))
+
+		self.assertEqual(Time.parseTime('business day before 2019-7-3'), datetime.datetime(2019, 7, 2))
+		self.assertEqual(Time.parseTime('business day before 2019-7-5'), datetime.datetime(2019, 7, 3))
+		self.assertEqual(Time.parseTime('couple business days before 2019-7-5'), datetime.datetime(2019, 7, 2))
+		self.assertEqual(Time.parseTime('2 bus days before 2019-7-8'), datetime.datetime(2019, 7, 3))
+
 	def test_parseTime_ago(self):
 		t = datetime.datetime(2019, 5, 6, 13, 30)
 		self.assertEqual(Time.parseTime('ten minutes ago', t=t), datetime.datetime(2019, 5, 6, 13, 20))

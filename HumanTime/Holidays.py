@@ -23,7 +23,8 @@
 
 import datetime
 
-from HumanTime.Weekdays import dayOfWeekOnOrAfter
+from HumanTime.Weekdays import SATURDAY, dayOfWeekOnOrAfter
+from HumanTime.Utility import today
 
 def newYearsDay(year):
 	"""
@@ -180,3 +181,27 @@ def holidayCalendar(fromYear, toYear):
 #The holidays used to compute business days
 HOLIDAY_CALENDAR = holidayCalendar(1900, 2100)
 HOLIDAYS = {h[0] for h in HOLIDAY_CALENDAR}
+
+def businessDayOnOrAfter(t, holidays=HOLIDAYS):
+	"""
+	Returns the first business day on or after a given time.
+
+	:param t: datetime.datetime
+	:return: datetime.datetime
+	"""
+	t = today(t)
+	while t.weekday() >= SATURDAY or t in HOLIDAYS:
+		t += datetime.timedelta(days=1)
+	return t
+
+def businessDayOnOrBefore(t, holidays=HOLIDAYS):
+	"""
+	Returns the first business day on or before a given time.
+
+	:param t: datetime.datetime
+	:return: datetime.datetime
+	"""
+	t = today(t)
+	while t.weekday() >= SATURDAY or t in HOLIDAYS:
+		t -= datetime.timedelta(days=1)
+	return t
