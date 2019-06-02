@@ -121,8 +121,11 @@ def veteransDay(year):
 	Returns the date of Veterans' Day in a given year.
 
 	:param year: int
-	:return: datetime.datetime
+	:return: datetime.datetime or None
 	"""
+	if year < 1938:
+		return None
+
 	return datetime.datetime(year, 11, 11)
 
 def thanksgiving(year):
