@@ -26,6 +26,69 @@ import datetime
 from HumanTime.Weekdays import SATURDAY, dayOfWeekOnOrAfter
 from HumanTime.Utility import today
 
+GOOD_FRIDAYS = {
+	2010: (4,  2),
+	2011: (4, 22),
+	2012: (4,  6),
+	2013: (3, 29),
+	2014: (4, 18),
+	2015: (4,  3),
+	2016: (3, 25),
+	2017: (4, 14),
+	2018: (3, 30),
+	2019: (4, 19),
+	2020: (4, 10),
+	2021: (4,  2),
+	2022: (4, 15),
+	2023: (4,  7),
+	2024: (3, 29),
+	2025: (4, 18),
+	2026: (4,  3),
+	2027: (3, 26),
+	2028: (4, 14),
+	2029: (3, 30),
+	2030: (4, 19),
+	2031: (4, 11),
+	2032: (3, 26),
+	2033: (4, 15),
+	2034: (4,  7),
+	2035: (3, 23),
+	2036: (4, 11),
+	2037: (4,  3),
+	2038: (4, 23),
+	2039: (4,  8),
+	2040: (3, 30),
+	2041: (4, 19),
+	2042: (4,  4),
+	2043: (3, 27),
+	2044: (4, 15),
+	2045: (4,  7),
+	2046: (3, 23),
+	2047: (4, 12),
+	2048: (4,  3),
+	2049: (4, 16),
+	2050: (4,  8),
+	2051: (3, 31),
+	2052: (4, 19),
+	2053: (4,  4),
+	2054: (3, 27),
+	2055: (4, 16),
+	2056: (3, 31),
+	2057: (4, 20),
+	2058: (4, 12),
+	2059: (3, 28),
+	2060: (4, 16),
+	2061: (4,  8),
+	2062: (3, 24),
+	2063: (4, 13),
+	2064: (4,  4),
+	2065: (3, 27),
+	2066: (4,  9),
+	2067: (4,  1),
+	2068: (4, 20),
+	2069: (4, 12),
+}
+
 def newYearsDay(year):
 	"""
 	Returns the date of New Year's Day in a given year.
@@ -63,7 +126,18 @@ def presidentsDay(year):
 	firstMonday = dayOfWeekOnOrAfter(datetime.datetime(year, 2, 1), 0)
 	return firstMonday + datetime.timedelta(days=14)
 
-#TODO: Good Friday
+def goodFriday(year):
+	"""
+	Returns the date of Good Friday in a given year.
+
+	:param year: int
+	:return: datetime.datetime or None
+	"""
+	monthDay = GOOD_FRIDAYS.get(year)
+	if monthDay is None:
+		return None
+
+	return datetime.datetime(year, monthDay[0], monthDay[1])
 
 def memorialDay(year):
 	"""
@@ -158,6 +232,9 @@ def holidayCalendar(fromYear, toYear):
 
 		#Feb
 		holidays.append( (presidentsDay(year), 'Presidents\' Day') )
+
+		#Mar/Apr
+		holidays.append( (goodFriday(year), 'Good Friday') )
 
 		#May
 		holidays.append( (memorialDay(year), 'Memorial Day') )
