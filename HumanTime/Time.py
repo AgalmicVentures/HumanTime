@@ -230,7 +230,9 @@ KEYWORDS = {
 	'tomorrow': tomorrow,
 	'yesterday': yesterday,
 
-	#TODO: holidays
+	#Holidays
+	'halloween': lambda t: dayOfYearOnOrAfter(t, 10, 31),
+	'christmas': lambda t: dayOfYearOnOrAfter(t, 12, 25),
 }
 KEYWORDS.update(DAY_OF_WEEK_ON_OR_AFTER)
 KEYWORDS.update(MONTH_ON_OR_AFTER)
