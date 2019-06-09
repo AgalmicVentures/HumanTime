@@ -139,6 +139,19 @@ def goodFriday(year):
 
 	return datetime.datetime(year, monthDay[0], monthDay[1])
 
+def easter(year):
+	"""
+	Returns the date of Easter in a given year.
+
+	:param year: int
+	:return: datetime.datetime or None
+	"""
+	t0 = goodFriday(year)
+	if t0 is None:
+		return None
+
+	return t0 + datetime.timedelta(days=2)
+
 def memorialDay(year):
 	"""
 	Returns the date of Labor Day in a given year.

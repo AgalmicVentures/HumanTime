@@ -61,6 +61,13 @@ class HolidaysTest(unittest.TestCase):
 			self.assertTrue(d.month == 3 or d.month == 4)
 			self.assertEqual(d.weekday(), Weekdays.FRIDAY)
 
+	def test_easter(self):
+		for year in range(2010, 2030):
+			d = Holidays.easter(year)
+			self.assertEqual(d.year, year)
+			self.assertTrue(d.month == 3 or d.month == 4)
+			self.assertEqual(d.weekday(), Weekdays.SUNDAY)
+
 	def test_memorialDay(self):
 		for year in YEARS:
 			d = Holidays.memorialDay(year)
