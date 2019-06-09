@@ -20,6 +20,7 @@
 # SOFTWARE.
 
 import datetime
+import re
 
 from HumanTime.Durations import parseDurationTokens, DAY, WEEK
 from HumanTime.Numbers import parseNumber
@@ -153,6 +154,32 @@ def monthOnOrBefore(t, month):
 		raise ValueError('Month must be in [1, 12]')
 	t = now(t)
 	return datetime.datetime(t.year - 1 if t.month < month else t.year, month, 1)
+
+def dayOfYearOnOrAfter(t, month, day):
+	"""
+	Returns the first weekday on or after a given time.
+
+	:param t: datetime.datetime
+	:param month: int
+	:param day: int
+	:return: datetime.datetime
+	"""
+	t = now(t)
+	dayOnOrAfter = month > t.month or (month == t.month and day >= t.day)
+	return datetime.datetime(t.year if dayOnOrAfter else t.year + 1, month, day)
+
+def dayOfYearOnOrBefore(t, month, day):
+	"""
+	Returns the first weekday on or after a given time.
+
+	:param t: datetime.datetime
+	:param month: int
+	:param day: int
+	:return: datetime.datetime
+	"""
+	t = now(t)
+	dayOnOrBefore = month < t.month or (month == t.month and day <= t.day)
+	return datetime.datetime(t.year if dayOnOrBefore else t.year - 1, month, day)
 
 ##### Parsing #####
 
@@ -318,6 +345,15 @@ def parseTimeTokens(ts, t=None):
 			endMonth = 12 if sign == 1 else 1
 			t1 = datetime.datetime(t0.year + (sign if t0.month == endMonth else 0), (t0.month + sign) % 12, 1)
 			t2 = month(t=t1)
+			return t2.replace(year=t2.year + sign * (count - 1))
+
+		monthDay = re.match('^([0-9]+)[-/._]([0-9]+)$', unit)
+		if monthDay:
+			month = int(monthDay.group(1))
+			day = int(monthDay.group(2))
+			dayOfYear = dayOfYearOnOrBefore if sign == -1 else dayOfYearOnOrAfter
+			t1 = t0 + sign * DAY
+			t2 = dayOfYear(t1, month, day)
 			return t2.replace(year=t2.year + sign * (count - 1))
 
 		if unit in {'mo', 'month', 'months'}:

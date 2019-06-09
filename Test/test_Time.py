@@ -249,3 +249,16 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('last weekday', t=t), datetime.datetime(2019, 5, 10))
 		self.assertEqual(Time.parseTime('this weekday', t=t), datetime.datetime(2019, 5, 13))
 		self.assertEqual(Time.parseTime('next weekday', t=t), datetime.datetime(2019, 5, 13))
+
+	def test_parseTime_nextLast_dayOfYear(self):
+		t = datetime.datetime(2019, 5, 8, 13, 30)
+
+		self.assertEqual(Time.parseTime('last 5-7', t=t), datetime.datetime(2019, 5, 7))
+		self.assertEqual(Time.parseTime('last 5-8', t=t), datetime.datetime(2018, 5, 8))
+		self.assertEqual(Time.parseTime('last 5-9', t=t), datetime.datetime(2018, 5, 9))
+		self.assertEqual(Time.parseTime('this 5/7', t=t), datetime.datetime(2020, 5, 7))
+		self.assertEqual(Time.parseTime('this 5/8', t=t), datetime.datetime(2019, 5, 8))
+		self.assertEqual(Time.parseTime('this 5/9', t=t), datetime.datetime(2019, 5, 9))
+		self.assertEqual(Time.parseTime('next 5/7', t=t), datetime.datetime(2020, 5, 7))
+		self.assertEqual(Time.parseTime('next 5/8', t=t), datetime.datetime(2020, 5, 8))
+		self.assertEqual(Time.parseTime('next 5/9', t=t), datetime.datetime(2019, 5, 9))
