@@ -203,6 +203,15 @@ def columbusDay(year):
 	firstMonday = dayOfWeekOnOrAfter(datetime.datetime(year, 10, 1), 0)
 	return firstMonday + datetime.timedelta(days=7)
 
+def halloween(year):
+	"""
+	Returns the date of Halloween in a given year.
+
+	:param year: int
+	:return: datetime.datetime or None
+	"""
+	return datetime.datetime(year, 10, 31)
+
 def veteransDay(year):
 	"""
 	Returns the date of Veterans' Day in a given year.
@@ -236,6 +245,13 @@ def christmas(year):
 	return datetime.datetime(year, 12, 25)
 
 def holidayCalendar(fromYear, toYear):
+	"""
+	Returns a business holiday calendar from one year to another (inclusive).
+
+	:param fromYear: int
+	:param toYear: int
+	:return: datetime.datetime
+	"""
 	holidays = []
 	for year in range(fromYear, toYear + 1):
 		#Jan

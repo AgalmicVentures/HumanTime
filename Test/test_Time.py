@@ -262,3 +262,16 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('next 5/7', t=t), datetime.datetime(2020, 5, 7))
 		self.assertEqual(Time.parseTime('next 5/8', t=t), datetime.datetime(2020, 5, 8))
 		self.assertEqual(Time.parseTime('next 5/9', t=t), datetime.datetime(2019, 5, 9))
+
+	def test_parseTime_holidays(self):
+		t = datetime.datetime(2019, 5, 8, 13, 30)
+
+		self.assertEqual(Time.parseTime('halloween', t=t), datetime.datetime(2019, 10, 31))
+		self.assertEqual(Time.parseTime('xmas', t=t), datetime.datetime(2019, 12, 25))
+		self.assertEqual(Time.parseTime('Easter', t=t), datetime.datetime(2020, 4, 12))
+
+		self.assertEqual(Time.parseTime('last halloween', t=t), datetime.datetime(2018, 10, 31))
+		self.assertEqual(Time.parseTime('last easter', t=t), datetime.datetime(2019, 4, 21))
+		self.assertEqual(Time.parseTime('2 easters ago', t=t), datetime.datetime(2018, 4, 1))
+		self.assertEqual(Time.parseTime('third easter before now', t=t), datetime.datetime(2017, 4, 16))
+		self.assertEqual(Time.parseTime('next thanksgiving', t=t), datetime.datetime(2019, 11, 28))

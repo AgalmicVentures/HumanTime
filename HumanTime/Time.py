@@ -181,6 +181,32 @@ def dayOfYearOnOrBefore(t, month, day):
 	dayOnOrBefore = month < t.month or (month == t.month and day <= t.day)
 	return datetime.datetime(t.year if dayOnOrBefore else t.year - 1, month, day)
 
+def annualOnOrAfter(t, annualEvent):
+	"""
+	Returns the first annual event on or after this date.
+
+	:param t: datetime.datetime
+	:param annualEvent: function from year to datetime
+	:return: datetime.datetime
+	"""
+	t = now(t)
+	t0 = annualEvent(t.year)
+	dayOnOrAfter = t0.month > t.month or (t0.month == t.month and t0.day >= t.day)
+	return t0 if dayOnOrAfter else annualEvent(t.year + 1)
+
+def annualOnOrBefore(t, annualEvent):
+	"""
+	Returns the first annual event on or before this date.
+
+	:param t: datetime.datetime
+	:param annualEvent: function from year to datetime
+	:return: datetime.datetime
+	"""
+	t = now(t)
+	t0 = annualEvent(t.year)
+	dayOnOrBefore = t0.month < t.month or (t0.month == t.month and t0.day <= t.day)
+	return t0 if dayOnOrBefore else annualEvent(t.year - 1)
+
 ##### Parsing #####
 
 DAY_OF_WEEK_ON_OR_AFTER = {}
@@ -222,6 +248,20 @@ for month, names in [
 		MONTH_ON_OR_AFTER[name] = afterFunction
 		MONTH_ON_OR_BEFORE[name] = beforeFunction
 
+HOLIDAY_ON_OR_AFTER = {}
+HOLIDAY_ON_OR_BEFORE = {}
+for holiday, names in [
+		(easter, ['easter', 'easters']),
+		(halloween, ['halloween', 'halloweens']),
+		(thanksgiving, ['thanksgiving', 'thanksgivings']),
+		(christmas, ['christmas', 'x-mas', 'xmas']),
+	]:
+	afterFunction = lambda t=None, h=holiday: annualOnOrAfter(t, h)
+	beforeFunction = lambda t=None, h=holiday: annualOnOrBefore(t, h)
+	for name in names:
+		HOLIDAY_ON_OR_AFTER[name] = afterFunction
+		HOLIDAY_ON_OR_BEFORE[name] = beforeFunction
+
 KEYWORDS = {
 	#Basics
 	'noon': noon,
@@ -229,13 +269,10 @@ KEYWORDS = {
 	'today': today,
 	'tomorrow': tomorrow,
 	'yesterday': yesterday,
-
-	#Holidays
-	'halloween': lambda t: dayOfYearOnOrAfter(t, 10, 31),
-	'christmas': lambda t: dayOfYearOnOrAfter(t, 12, 25),
 }
 KEYWORDS.update(DAY_OF_WEEK_ON_OR_AFTER)
 KEYWORDS.update(MONTH_ON_OR_AFTER)
+KEYWORDS.update(HOLIDAY_ON_OR_AFTER)
 
 PREPOSITION_SIGNS = {
 	'after': 1,
@@ -348,6 +385,13 @@ def parseTimeTokens(ts, t=None):
 			t1 = datetime.datetime(t0.year + (sign if t0.month == endMonth else 0), (t0.month + sign) % 12, 1)
 			t2 = month(t=t1)
 			return t2.replace(year=t2.year + sign * (count - 1))
+
+		holiday = (HOLIDAY_ON_OR_BEFORE if sign == -1 else HOLIDAY_ON_OR_AFTER).get(unit)
+		if holiday is not None:
+			t1 = t0
+			for i in range(count):
+				t1 = holiday(t=t1 + sign * DAY)
+			return t1
 
 		monthDay = re.match('^([0-9]+)[-/._]([0-9]+)$', unit)
 		if monthDay:

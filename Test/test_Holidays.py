@@ -98,6 +98,13 @@ class HolidaysTest(unittest.TestCase):
 			self.assertGreaterEqual(d.day, 8)
 			self.assertEqual(d.weekday(), Weekdays.MONDAY)
 
+	def test_halloween(self):
+		for year in YEARS:
+			d = Holidays.halloween(year)
+			self.assertEqual(d.year, year)
+			self.assertEqual(d.month, 10)
+			self.assertEqual(d.day, 31)
+
 	def test_veteransDay(self):
 		for year in YEARS:
 			d = Holidays.veteransDay(year)
