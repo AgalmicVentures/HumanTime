@@ -208,6 +208,7 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('ten minutes ago', t=t), datetime.datetime(2019, 5, 6, 13, 20))
 		self.assertEqual(Time.parseTime('30 minutes ago', t=t), datetime.datetime(2019, 5, 6, 13, 0))
 		self.assertEqual(Time.parseTime('a day ago', t=t), datetime.datetime(2019, 5, 5, 13, 30))
+		self.assertEqual(Time.parseTime('a day hence', t=t), datetime.datetime(2019, 5, 7, 13, 30))
 		self.assertEqual(Time.parseTime('2 months ago', t=t), datetime.datetime(2019, 3, 6, 13, 30))
 		self.assertEqual(Time.parseTime('three years ago', t=t), datetime.datetime(2016, 5, 6, 13, 30))
 

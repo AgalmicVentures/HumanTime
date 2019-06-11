@@ -316,9 +316,11 @@ def parseTimeTokens(ts, t=None):
 	if ts[0] in {'a', 'an', 'the'}:
 		return parseTimeTokens(ts[1:], t=t)
 
-	#D ago
+	#D ago / hence
 	if ts[-1] == 'ago':
 		return parseTimeTokens(ts[:-1] + ['before', 'now'], t=t)
+	elif ts[-1] == 'hence':
+		return parseTimeTokens(ts[:-1] + ['after', 'now'], t=t)
 
 	#T at Time
 	if len(ts) > 2 and ts[-2] == 'at':
