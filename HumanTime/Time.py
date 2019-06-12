@@ -317,9 +317,9 @@ def parseTimeTokens(ts, t=None):
 		return parseTimeTokens(ts[1:], t=t)
 
 	#D ago / hence
-	if ts[-1] == 'ago':
+	if ts[-1] in {'ago', 'earlier'}:
 		return parseTimeTokens(ts[:-1] + ['before', 'now'], t=t)
-	elif ts[-1] == 'hence':
+	elif ts[-1] in {'hence', 'later'}:
 		return parseTimeTokens(ts[:-1] + ['after', 'now'], t=t)
 
 	#T at Time
