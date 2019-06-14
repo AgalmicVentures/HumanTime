@@ -27,8 +27,9 @@ from HumanTime.Numbers import parseNumber
 from HumanTime.Utility import tokenize
 
 #Actually bring in these symbols
-from HumanTime.Holidays import *
-from HumanTime.Weekdays import *
+#XXX: don't use * imports so static analysis can detect unknown symbols
+from HumanTime.Holidays import * # @suppress
+from HumanTime.Weekdays import * # @suppress
 from HumanTime.Utility import now, today
 
 ##### Standard Time Format Helpers #####
@@ -64,7 +65,7 @@ def parseTimeOfDay(s):
 		try:
 			return datetime.datetime.strptime(s, format).time()
 		except ValueError as e:
-			pass
+			pass #Try the next one
 	raise ValueError('Invalid time: "%s"' % str(s))
 
 def parseTimestamp(s):
@@ -97,7 +98,7 @@ def parseTimestamp(s):
 		try:
 			return datetime.datetime.strptime(s, format)
 		except ValueError as e:
-			pass
+			pass #Try the next one
 	raise ValueError('Invalid timestamp: "%s"' % str(s))
 
 ##### Generators #####
@@ -220,8 +221,8 @@ for dayOfWeek, names in [
 			(SATURDAY, ['sat', 'saturday', 'saturdays']),
 			(SUNDAY, ['sun', 'sunday', 'sundays']),
 		]:
-	afterFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrAfter(t, d)
-	beforeFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrBefore(t, d)
+	afterFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrAfter(t, d) # @suppress
+	beforeFunction = lambda t=None, d=dayOfWeek: dayOfWeekOnOrBefore(t, d) # @suppress
 	for name in names:
 		DAY_OF_WEEK_ON_OR_AFTER[name] = afterFunction
 		DAY_OF_WEEK_ON_OR_BEFORE[name] = beforeFunction
@@ -242,8 +243,8 @@ for month, names in [
 			(11, ['nov', 'november']),
 			(12, ['dec', 'december']),
 		]:
-	afterFunction = lambda t=None, m=month: monthOnOrAfter(t, m)
-	beforeFunction = lambda t=None, m=month: monthOnOrBefore(t, m)
+	afterFunction = lambda t=None, m=month: monthOnOrAfter(t, m) # @suppress
+	beforeFunction = lambda t=None, m=month: monthOnOrBefore(t, m) # @suppress
 	for name in names:
 		MONTH_ON_OR_AFTER[name] = afterFunction
 		MONTH_ON_OR_BEFORE[name] = beforeFunction
@@ -256,8 +257,8 @@ for holiday, names in [
 		(thanksgiving, ['thanksgiving', 'thanksgivings']),
 		(christmas, ['christmas', 'x-mas', 'xmas']),
 	]:
-	afterFunction = lambda t=None, h=holiday: annualOnOrAfter(t, h)
-	beforeFunction = lambda t=None, h=holiday: annualOnOrBefore(t, h)
+	afterFunction = lambda t=None, h=holiday: annualOnOrAfter(t, h) # @suppress
+	beforeFunction = lambda t=None, h=holiday: annualOnOrBefore(t, h) # @suppress
 	for name in names:
 		HOLIDAY_ON_OR_AFTER[name] = afterFunction
 		HOLIDAY_ON_OR_BEFORE[name] = beforeFunction
@@ -275,8 +276,8 @@ for holiday, names0, names1 in [
 		(columbusDay, ['columbus'], ['day', 'days']),
 		(veteransDay, ['veterans', "veterans'", "veteran's"], ['day', 'days']),
 	]:
-	afterFunction = lambda t=None, h=holiday: annualOnOrAfter(t, h)
-	beforeFunction = lambda t=None, h=holiday: annualOnOrBefore(t, h)
+	afterFunction = lambda t=None, h=holiday: annualOnOrAfter(t, h) # @suppress
+	beforeFunction = lambda t=None, h=holiday: annualOnOrBefore(t, h) # @suppress
 	for name0 in names0:
 		for name1 in names1:
 			name = (name0, name1)
@@ -326,8 +327,6 @@ def parseTimeTokens(ts, t=None):
 	:param t: datetime.datetime or None Base time
 	:return: datetime.datetime
 	"""
-	#TODO: business days
-	#TODO: of the month/year
 	n = len(ts)
 	if n == 0:
 		raise ValueError('Invalid time string - no tokens')
@@ -389,7 +388,7 @@ def parseTimeTokens(ts, t=None):
 				if unit0 in {'b', 'bus', 'business'}:
 					businessDay = businessDayOnOrBefore if sign == -1 else businessDayOnOrAfter
 					t1 = t0
-					for i in range(count):
+					for _ in range(count):
 						t1 = businessDay(t=t1 + sign * DAY)
 					return t1
 
@@ -398,7 +397,7 @@ def parseTimeTokens(ts, t=None):
 			holiday = (HOLIDAY2_ON_OR_BEFORE if sign == -1 else HOLIDAY2_ON_OR_AFTER).get(unit)
 			if holiday is not None:
 				t1 = t0
-				for i in range(count):
+				for _ in range(count):
 					t1 = holiday(t=t1 + sign * DAY)
 				return t1
 
@@ -412,7 +411,7 @@ def parseTimeTokens(ts, t=None):
 		if unit in {'wkdy', 'weekday', 'weekdays'}:
 			weekday = weekdayOnOrBefore if sign == -1 else weekdayOnOrAfter
 			t1 = t0
-			for i in range(count):
+			for _ in range(count):
 				t1 = weekday(t=t1 + sign * DAY)
 			return t1
 
@@ -431,7 +430,7 @@ def parseTimeTokens(ts, t=None):
 		holiday = (HOLIDAY_ON_OR_BEFORE if sign == -1 else HOLIDAY_ON_OR_AFTER).get(unit)
 		if holiday is not None:
 			t1 = t0
-			for i in range(count):
+			for _ in range(count):
 				t1 = holiday(t=t1 + sign * DAY)
 			return t1
 

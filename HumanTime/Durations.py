@@ -69,16 +69,16 @@ def parseDurationTokens(ts):
 			unit = UNITS[ts[0]]
 			return unit
 		except KeyError:
-			pass
+			pass #Try the next one
 	elif n == 2:
 		try:
 			count = parseNumber(ts[0])
 			unit = UNITS[ts[1]]
 			return count * unit
 		except KeyError:
-			pass
+			pass #Try the next one
 		except ValueError:
-			pass
+			pass #Try the next one
 	raise ValueError('Invalid duration string')
 
 def parseDuration(s):
