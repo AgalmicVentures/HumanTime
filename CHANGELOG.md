@@ -6,6 +6,7 @@
 - Two word named holiday support (`the business day before Labor Day`).
 ### Changed
 - Allow customization for holiday calendar generation.
+- Use [Butcher's algorithm](https://en.wikipedia.org/wiki/Computus) to calculate Easter.
 
 ## [0.1.2] - 2019-06-08
 ### Added
