@@ -262,6 +262,26 @@ for holiday, names in [
 		HOLIDAY_ON_OR_AFTER[name] = afterFunction
 		HOLIDAY_ON_OR_BEFORE[name] = beforeFunction
 
+HOLIDAY2_ON_OR_AFTER = {}
+HOLIDAY2_ON_OR_BEFORE = {}
+for holiday, names0, names1 in [
+		(newYearsDay, ['new'], ['year', 'years']),
+		(presidentsDay, ['presidents', "presidents'", "president's"], ['day', 'days']),
+		(goodFriday, ['good'], ['friday', 'fridays']),
+		(memorialDay, ['memorial'], ['day', 'days']),
+		(independenceDay, ['independence'], ['day', 'days']),
+		(laborDay, ['labor'], ['day', 'days']),
+		(columbusDay, ['columbus'], ['day', 'days']),
+		(veteransDay, ['veterans', "veterans'", "veteran's"], ['day', 'days']),
+	]:
+	afterFunction = lambda t=None, h=holiday: annualOnOrAfter(t, h)
+	beforeFunction = lambda t=None, h=holiday: annualOnOrBefore(t, h)
+	for name0 in names0:
+		for name1 in names1:
+			name = (name0, name1)
+			HOLIDAY2_ON_OR_AFTER[name] = afterFunction
+			HOLIDAY2_ON_OR_BEFORE[name] = beforeFunction
+
 KEYWORDS = {
 	#Basics
 	'noon': noon,
@@ -273,6 +293,11 @@ KEYWORDS = {
 KEYWORDS.update(DAY_OF_WEEK_ON_OR_AFTER)
 KEYWORDS.update(MONTH_ON_OR_AFTER)
 KEYWORDS.update(HOLIDAY_ON_OR_AFTER)
+
+KEYWORDS2 = {
+	#TODO: Add any 2 token keywords
+}
+KEYWORDS2.update(HOLIDAY2_ON_OR_AFTER)
 
 PREPOSITION_SIGNS = {
 	'after': 1,
@@ -311,6 +336,11 @@ def parseTimeTokens(ts, t=None):
 		if keyword is not None:
 			return keyword(t=t)
 		return parseTimestamp(token)
+	elif n == 2:
+		token = (ts[0], ts[1])
+		keyword = KEYWORDS2.get(token)
+		if keyword is not None:
+			return keyword(t=t)
 
 	#Articles
 	if ts[0] in {'a', 'an', 'the'}:
@@ -361,6 +391,15 @@ def parseTimeTokens(ts, t=None):
 					for i in range(count):
 						t1 = businessDay(t=t1 + sign * DAY)
 					return t1
+
+			#Two word holidays
+			unit = (unit0, unit1)
+			holiday = (HOLIDAY2_ON_OR_BEFORE if sign == -1 else HOLIDAY2_ON_OR_AFTER).get(unit)
+			if holiday is not None:
+				t1 = t0
+				for i in range(count):
+					t1 = holiday(t=t1 + sign * DAY)
+				return t1
 
 		#Otherwise, single token units
 		unit = durationTokens[-1]

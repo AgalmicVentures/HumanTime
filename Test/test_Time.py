@@ -276,3 +276,10 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('2 easters ago', t=t), datetime.datetime(2018, 4, 1))
 		self.assertEqual(Time.parseTime('third easter before now', t=t), datetime.datetime(2017, 4, 16))
 		self.assertEqual(Time.parseTime('next thanksgiving', t=t), datetime.datetime(2019, 11, 28))
+
+	def test_parseTime_twoWordHolidays(self):
+		t = datetime.datetime(2019, 5, 8, 13, 30)
+
+		self.assertEqual(Time.parseTime('Good Friday', t=t), datetime.datetime(2020, 4, 10))
+
+		self.assertEqual(Time.parseTime('2 good fridays ago', t=t), datetime.datetime(2018, 3, 30))
