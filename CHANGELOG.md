@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.1.3]
+## [0.1.3] - 2019-06-14
 ### Added
 - Support for `hence`, `later`, and `earlier` to complement `ago`.
 - Two word named holiday support (`the business day before Labor Day`).
