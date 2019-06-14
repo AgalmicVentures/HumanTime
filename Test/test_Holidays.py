@@ -132,3 +132,12 @@ class HolidaysTest(unittest.TestCase):
 
 		#Spot check
 		self.assertGreaterEqual(len(hs), 30)
+		self.assertEqual(hs[0][0].year, 2018)
+		self.assertEqual(hs[-1][0].year, 2020)
+
+		#Sorted?
+		h = None
+		for holiday, name in hs:
+			if h is not None:
+				self.assertGreater(holiday, h)
+			h = holiday

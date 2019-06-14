@@ -21,6 +21,7 @@
 
 #NOTE: Currently this is US holidays only.
 
+import collections
 import datetime
 
 from HumanTime.Weekdays import SATURDAY, dayOfWeekOnOrAfter
@@ -244,46 +245,34 @@ def christmas(year):
 	"""
 	return datetime.datetime(year, 12, 25)
 
-def holidayCalendar(fromYear, toYear):
+HOLIDAY_NAME_TO_HOLIDAY = collections.OrderedDict([
+	("New Year's Day", newYearsDay),
+	('Martin Luther King Jr. Day', martinLutherKingJrDay),
+	("Presidents' Day", presidentsDay),
+	('Good Friday', goodFriday),
+	('Memorial Day', memorialDay),
+	('Independence Day', independenceDay),
+	('Labor Day', laborDay),
+	('Columbus Day', columbusDay),
+	("Veterans' Day", veteransDay),
+	('Thanksgiving', thanksgiving),
+	('Christmas', christmas),
+])
+
+def holidayCalendar(fromYear, toYear, holidayNameToHoliday=HOLIDAY_NAME_TO_HOLIDAY):
 	"""
 	Returns a business holiday calendar from one year to another (inclusive).
 
 	:param fromYear: int
 	:param toYear: int
+	:param holidayNameToHoliday: collections.OrderedDict of name to holiday function
 	:return: datetime.datetime
 	"""
 	holidays = []
 	for year in range(fromYear, toYear + 1):
-		#Jan
-		holidays.append( (newYearsDay(year), 'New Year\'s Day') )
-
-		holidays.append( (martinLutherKingJrDay(year), 'Martin Luther King Jr. Day') )
-
-		#Feb
-		holidays.append( (presidentsDay(year), 'Presidents\' Day') )
-
-		#Mar/Apr
-		holidays.append( (goodFriday(year), 'Good Friday') )
-
-		#May
-		holidays.append( (memorialDay(year), 'Memorial Day') )
-
-		#Jul
-		holidays.append( (independenceDay(year), 'Independence Day') )
-
-		#Sep
-		holidays.append( (laborDay(year), 'Labor Day') )
-
-		#Oct
-		holidays.append( (columbusDay(year), 'Columbus Day') )
-
-		#Nov
-		holidays.append( (veteransDay(year), 'Veterans\' Day') )
-
-		holidays.append( (thanksgiving(year), 'Thanksgiving') )
-
-		#Dec
-		holidays.append( (christmas(year), 'Christmas') )
+		for name in holidayNameToHoliday:
+			holiday = holidayNameToHoliday[name]
+			holidays.append( (holiday(year), name) )
 
 	return [h for h in holidays if h[0] is not None]
 
