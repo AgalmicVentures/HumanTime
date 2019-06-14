@@ -266,6 +266,7 @@ HOLIDAY2_ON_OR_AFTER = {}
 HOLIDAY2_ON_OR_BEFORE = {}
 for holiday, names0, names1 in [
 		(newYearsDay, ['new'], ['year', 'years']),
+		(martinLutherKingJrDay, ['mlk'], ['day', 'days']),
 		(presidentsDay, ['presidents', "presidents'", "president's"], ['day', 'days']),
 		(goodFriday, ['good'], ['friday', 'fridays']),
 		(memorialDay, ['memorial'], ['day', 'days']),
