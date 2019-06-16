@@ -48,6 +48,10 @@ CARDINALS = {
 	'seventy': 70,
 	'eighty': 80,
 	'ninety': 90,
+	'hundred': 100,
+	'thousand': 10 ** 3,
+	'million': 10 ** 6,
+	'billion': 10 ** 9,
 
 	#Not strictly cardinals, but its helpful
 	'a': 1,
@@ -58,6 +62,7 @@ CARDINALS = {
 }
 
 ORDINALS = {
+	'0th': 0,
 	'1st': 1,
 	'2nd': 2,
 	'3rd': 3,
@@ -109,6 +114,8 @@ ORDINALS = {
 	'seventeenth': 17,
 	'eighteenth': 18,
 	'nineteenth': 19,
+	'twentieth': 20,
+	'thirtieth': 30,
 }
 
 def parseCardinal(s):

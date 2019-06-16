@@ -266,12 +266,12 @@ for holiday, names in [
 HOLIDAY2_ON_OR_AFTER = {}
 HOLIDAY2_ON_OR_BEFORE = {}
 for holiday, names0, names1 in [
-		(newYearsDay, ['new'], ['year', 'years']),
+		(newYearsDay, ['new'], ['year', 'years', "year's", "years'"]),
 		(martinLutherKingJrDay, ['mlk'], ['day', 'days']),
 		(presidentsDay, ['presidents', "presidents'", "president's"], ['day', 'days']),
-		(goodFriday, ['good'], ['friday', 'fridays']),
+		(goodFriday, ['good', 'holy'], ['friday', 'fridays']),
 		(memorialDay, ['memorial'], ['day', 'days']),
-		(independenceDay, ['independence'], ['day', 'days']),
+		(independenceDay, ['indep', 'indep.', 'independence'], ['day', 'days']),
 		(laborDay, ['labor'], ['day', 'days']),
 		(columbusDay, ['columbus'], ['day', 'days']),
 		(veteransDay, ['veterans', "veterans'", "veteran's"], ['day', 'days']),
@@ -311,11 +311,13 @@ PREPOSITION_SIGNS = {
 }
 
 SIGNS = {
+	'following': 1,
 	'last': -1,
 	'next': 1,
 	'prev': -1,
 	'previous': -1,
 	'prior': -1,
+	'subsequent': 1,
 	'this': 0,
 }
 
@@ -434,6 +436,7 @@ def parseTimeTokens(ts, t=None):
 				t1 = holiday(t=t1 + sign * DAY)
 			return t1
 
+		#TODO: support named months too
 		monthDay = re.match('^([0-9]+)[-/._]([0-9]+)$', unit)
 		if monthDay:
 			month = int(monthDay.group(1))
