@@ -42,12 +42,29 @@ class UtilityTest(unittest.TestCase):
 		self.assertEqual(t1, nowT1)
 		self.assertEqual(t2, nowT2)
 
+	def test_thisYear(self):
+		d = Utility.thisYear()
+		self.assertEqual(d.month, 1)
+		self.assertEqual(d.day, 1)
+		self.assertEqual(d.hour, 0)
+		self.assertEqual(d.minute, 0)
+		self.assertEqual(d.second, 0)
+		self.assertEqual(d.microsecond, 0)
+
+	def test_thisMonth(self):
+		d = Utility.thisYear()
+		self.assertEqual(d.day, 1)
+		self.assertEqual(d.hour, 0)
+		self.assertEqual(d.minute, 0)
+		self.assertEqual(d.second, 0)
+		self.assertEqual(d.microsecond, 0)
+
 	def test_today(self):
-		today = Utility.today()
-		self.assertEqual(today.hour, 0)
-		self.assertEqual(today.minute, 0)
-		self.assertEqual(today.second, 0)
-		self.assertEqual(today.microsecond, 0)
+		d = Utility.today()
+		self.assertEqual(d.hour, 0)
+		self.assertEqual(d.minute, 0)
+		self.assertEqual(d.second, 0)
+		self.assertEqual(d.microsecond, 0)
 
 	def test_thisHour(self):
 		d = Utility.thisHour()

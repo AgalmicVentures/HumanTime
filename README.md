@@ -84,9 +84,9 @@ Simple numbers (those necessary for parsing times) can also be parsed separately
 Unit tests can be run with the following command:
 
     > python3 -m unittest discover
-	.........................................................................
+	...........................................................................
 	----------------------------------------------------------------------
-	Ran 73 tests in 0.030s
+	Ran 75 tests in 0.020s
 
 	OK
 

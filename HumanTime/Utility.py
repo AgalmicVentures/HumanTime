@@ -31,6 +31,24 @@ def now(t=None):
 	"""
 	return datetime.datetime.now() if t is None else t
 
+def thisYear(t=None):
+	"""
+	Returns this year.
+
+	:param t: datetime.datetime Optional current time for relative calls.
+	:return: datetime.datetime
+	"""
+	return now(t).replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+
+def thisMonth(t=None):
+	"""
+	Returns this month.
+
+	:param t: datetime.datetime Optional current time for relative calls.
+	:return: datetime.datetime
+	"""
+	return now(t).replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
 def today(t=None):
 	"""
 	Returns today at 0:00.
