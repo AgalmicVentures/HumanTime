@@ -24,7 +24,7 @@
 import collections
 import datetime
 
-from HumanTime.Weekdays import SATURDAY, dayOfWeekOnOrAfter
+from HumanTime.Weekdays import MONDAY, SATURDAY, THURSDAY, dayOfWeekOnOrAfter, dayOfWeekOnOrBefore
 from HumanTime.Utility import today
 
 def newYearsDay(year):
@@ -47,7 +47,7 @@ def martinLutherKingJrDay(year):
 		return None
 
 	#3rd Monday in Jan
-	firstMonday = dayOfWeekOnOrAfter(datetime.datetime(year, 1, 1), 0)
+	firstMonday = dayOfWeekOnOrAfter(datetime.datetime(year, 1, 1), MONDAY)
 	return firstMonday + datetime.timedelta(days=14)
 
 def presidentsDay(year):
@@ -61,7 +61,7 @@ def presidentsDay(year):
 		return None
 
 	#3rd Monday in Feb
-	firstMonday = dayOfWeekOnOrAfter(datetime.datetime(year, 2, 1), 0)
+	firstMonday = dayOfWeekOnOrAfter(datetime.datetime(year, 2, 1), MONDAY)
 	return firstMonday + datetime.timedelta(days=14)
 
 def goodFriday(year):
@@ -115,10 +115,7 @@ def memorialDay(year):
 		return datetime.datetime(year, 5, 30)
 	else:
 		#Last Monday in May
-		date = datetime.datetime(year, 5, 31)
-		while date.weekday() != 0:
-			date -= datetime.timedelta(days=1)
-		return date
+		return dayOfWeekOnOrBefore(datetime.datetime(year, 5, 31), MONDAY)
 
 def independenceDay(year):
 	"""
@@ -137,7 +134,7 @@ def laborDay(year):
 	:return: datetime.datetime
 	"""
 	#1st Monday in Sep
-	return dayOfWeekOnOrAfter(datetime.datetime(year, 9, 1), 0)
+	return dayOfWeekOnOrAfter(datetime.datetime(year, 9, 1), MONDAY)
 
 def columbusDay(year):
 	"""
@@ -150,7 +147,7 @@ def columbusDay(year):
 		return None
 
 	#2nd Monday in Oct
-	firstMonday = dayOfWeekOnOrAfter(datetime.datetime(year, 10, 1), 0)
+	firstMonday = dayOfWeekOnOrAfter(datetime.datetime(year, 10, 1), MONDAY)
 	return firstMonday + datetime.timedelta(days=7)
 
 def halloween(year):
@@ -182,7 +179,7 @@ def thanksgiving(year):
 	:return: datetime.datetime
 	"""
 	#4th Thurs in Nov
-	firstThursday = dayOfWeekOnOrAfter(datetime.datetime(year, 11, 1), 3)
+	firstThursday = dayOfWeekOnOrAfter(datetime.datetime(year, 11, 1), THURSDAY)
 	return firstThursday + datetime.timedelta(days=21)
 
 def christmas(year):
