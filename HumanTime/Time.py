@@ -484,3 +484,32 @@ def parseTime(s, t=None):
 	"""
 	ts = tokenize(s)
 	return parseTimeTokens(ts, t=t)
+
+class Recurrence(object):
+	"""
+	Represents a recurring event with a starting time and a
+	recurrence rule, that is, a relative time passed to
+	parseTime.
+	"""
+
+	def __init__(self, rule, t=None, count=None):
+		#Initial state
+		self._rule = rule
+		self._t0 = t
+		self._count = count
+
+		#Current state
+		self._t = t
+		self._countRemaining = count
+
+	def __iter__(self):
+		return self
+
+	def __next__(self):
+		if self._countRemaining <= 0:
+			raise StopIteration()
+		elif self._countRemaining is not None:
+			self._countRemaining -= 1
+
+		self._t = parseTime(self._rule, t=self._t)
+		return self._t

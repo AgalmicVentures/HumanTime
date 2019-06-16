@@ -22,7 +22,7 @@
 import datetime
 import unittest
 
-from HumanTime import Time
+from HumanTime import Time, Weekdays
 
 class TimeTest(unittest.TestCase):
 	"""
@@ -283,3 +283,8 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('Good Friday', t=t), datetime.datetime(2020, 4, 10))
 
 		self.assertEqual(Time.parseTime('2 good fridays ago', t=t), datetime.datetime(2018, 3, 30))
+
+	def test_recurrence_easter(self):
+		r = Time.Recurrence('next Easter', datetime.datetime(2019, 10, 2, 13, 10), count=10)
+		for d in r:
+			self.assertEqual(d.weekday(), Weekdays.SUNDAY)

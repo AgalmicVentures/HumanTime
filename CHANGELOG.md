@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.1.4
+### Added
+- More numbers (`thousand`), holiday aliases (`holy day`), and more prepositions.
+- Recurrence rules:
+
+	r = Recurrence('next Thanksgiving', count=10)
+	for date in r:
+		pass #Do something
+
 ## [0.1.3] - 2019-06-14
 ### Added
 - Support for `hence`, `later`, and `earlier` to complement `ago`.
