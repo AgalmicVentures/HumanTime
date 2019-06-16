@@ -30,7 +30,7 @@ from HumanTime.Utility import tokenize
 #XXX: don't use * imports so static analysis can detect unknown symbols
 from HumanTime.Holidays import * # @suppress
 from HumanTime.Weekdays import * # @suppress
-from HumanTime.Utility import now, today
+from HumanTime.Utility import now, today, thisHour, thisMinute, thisSecond
 
 ##### Standard Time Format Helpers #####
 
@@ -297,7 +297,11 @@ KEYWORDS.update(MONTH_ON_OR_AFTER)
 KEYWORDS.update(HOLIDAY_ON_OR_AFTER)
 
 KEYWORDS2 = {
-	#TODO: Add any 2 token keywords
+	#These 2 word combinations need special handling
+	('this', 'day'): today,
+	('this', 'hour'): thisHour,
+	('this', 'minute'): thisMinute,
+	('this', 'second'): thisSecond,
 }
 KEYWORDS2.update(HOLIDAY2_ON_OR_AFTER)
 

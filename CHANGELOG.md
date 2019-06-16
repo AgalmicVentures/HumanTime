@@ -3,11 +3,9 @@
 ## 0.1.4
 ### Added
 - More numbers (`thousand`), holiday aliases (`holy day`), and more prepositions.
-- Recurrence rules:
-
-	r = Recurrence('next Thanksgiving', count=10)
-	for date in r:
-		pass #Do something
+- Recurrence rules (`for d in Recurrence('next Thanksgiving', count=10): ...`).
+### Changed
+- Correct handling of `this day / hour / minute / second`.
 
 ## [0.1.3] - 2019-06-14
 ### Added

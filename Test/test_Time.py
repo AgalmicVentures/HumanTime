@@ -93,6 +93,46 @@ class TimeTest(unittest.TestCase):
 		self.assertLessEqual(t1, now)
 		self.assertLessEqual(now, t2)
 
+	def test_parseTime_specialThis(self):
+		t = datetime.datetime.now()
+
+		today = Time.parseTime('this day', t=t)
+		self.assertEqual(today.year, t.year)
+		self.assertEqual(today.month, t.month)
+		self.assertEqual(today.day, t.day)
+		self.assertEqual(today.hour, 0)
+		self.assertEqual(today.hour, 0)
+		self.assertEqual(today.minute, 0)
+		self.assertEqual(today.second, 0)
+		self.assertEqual(today.microsecond, 0)
+
+		today = Time.parseTime('this hour', t=t)
+		self.assertEqual(today.year, t.year)
+		self.assertEqual(today.month, t.month)
+		self.assertEqual(today.day, t.day)
+		self.assertEqual(today.hour, t.hour)
+		self.assertEqual(today.minute, 0)
+		self.assertEqual(today.second, 0)
+		self.assertEqual(today.microsecond, 0)
+
+		today = Time.parseTime('this minute', t=t)
+		self.assertEqual(today.year, t.year)
+		self.assertEqual(today.month, t.month)
+		self.assertEqual(today.day, t.day)
+		self.assertEqual(today.hour, t.hour)
+		self.assertEqual(today.minute, t.minute)
+		self.assertEqual(today.second, 0)
+		self.assertEqual(today.microsecond, 0)
+
+		today = Time.parseTime('this second', t=t)
+		self.assertEqual(today.year, t.year)
+		self.assertEqual(today.month, t.month)
+		self.assertEqual(today.day, t.day)
+		self.assertEqual(today.hour, t.hour)
+		self.assertEqual(today.minute, t.minute)
+		self.assertEqual(today.second, t.second)
+		self.assertEqual(today.microsecond, 0)
+
 	def test_parseTime_offsets(self):
 		self.assertEqual(Time.parseTime('1 year after 2019-2-1'), datetime.datetime(2020, 2, 1))
 		self.assertEqual(Time.parseTime('12 months after 2019-2-1'), datetime.datetime(2020, 2, 1))

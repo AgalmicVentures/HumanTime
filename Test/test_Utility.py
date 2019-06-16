@@ -49,6 +49,21 @@ class UtilityTest(unittest.TestCase):
 		self.assertEqual(today.second, 0)
 		self.assertEqual(today.microsecond, 0)
 
+	def test_thisHour(self):
+		d = Utility.thisHour()
+		self.assertEqual(d.minute, 0)
+		self.assertEqual(d.second, 0)
+		self.assertEqual(d.microsecond, 0)
+
+	def test_thisMinute(self):
+		d = Utility.thisHour()
+		self.assertEqual(d.second, 0)
+		self.assertEqual(d.microsecond, 0)
+
+	def test_thisSecond(self):
+		d = Utility.thisHour()
+		self.assertEqual(d.microsecond, 0)
+
 	def test_tokenize_empty(self):
 		self.assertEqual(Utility.tokenize(''), [])
 

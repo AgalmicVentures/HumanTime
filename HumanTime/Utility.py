@@ -40,6 +40,33 @@ def today(t=None):
 	"""
 	return now(t).replace(hour=0, minute=0, second=0, microsecond=0)
 
+def thisHour(t=None):
+	"""
+	Returns today at 0:00.
+
+	:param t: datetime.datetime Optional current time for relative calls.
+	:return: datetime.datetime
+	"""
+	return now(t).replace(minute=0, second=0, microsecond=0)
+
+def thisMinute(t=None):
+	"""
+	Returns today at 0:00.
+
+	:param t: datetime.datetime Optional current time for relative calls.
+	:return: datetime.datetime
+	"""
+	return now(t).replace(second=0, microsecond=0)
+
+def thisSecond(t=None):
+	"""
+	Returns today at 0:00.
+
+	:param t: datetime.datetime Optional current time for relative calls.
+	:return: datetime.datetime
+	"""
+	return now(t).replace(microsecond=0)
+
 def tokenize(s):
 	"""
 	Tokenizes a human string for parsing.
