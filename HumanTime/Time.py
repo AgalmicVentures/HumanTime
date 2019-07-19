@@ -291,6 +291,15 @@ KEYWORDS = {
 	'today': today,
 	'tomorrow': tomorrow,
 	'yesterday': yesterday,
+
+	#Abbreviations
+	'tdy': today,
+	'tmrw': tomorrow,
+	'tmw': tomorrow,
+	't-1': yesterday,
+	't+1': tomorrow,
+	'yda': yesterday,
+	'yday': yesterday,
 }
 KEYWORDS.update(DAY_OF_WEEK_ON_OR_AFTER)
 KEYWORDS.update(MONTH_ON_OR_AFTER)

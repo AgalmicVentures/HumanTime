@@ -3,6 +3,7 @@
 ## 0.1.4
 ### Added
 - More numbers (`thousand`), holiday aliases (`holy day`), and more prepositions.
+- More abbreviations (`tmrw`, `yda`, etc.).
 - Recurrence rules (`for d in Recurrence('next Thanksgiving', count=10): ...`).
 ### Changed
 - Correct handling of `this day / hour / minute / second`.
