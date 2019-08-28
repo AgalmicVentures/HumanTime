@@ -24,6 +24,7 @@
 import collections
 import datetime
 
+from HumanTime.Durations import DAY
 from HumanTime.Weekdays import MONDAY, SATURDAY, THURSDAY, dayOfWeekOnOrAfter, dayOfWeekOnOrBefore
 from HumanTime.Utility import today
 
@@ -205,20 +206,33 @@ HOLIDAY_NAME_TO_HOLIDAY = collections.OrderedDict([
 	('Christmas', christmas),
 ])
 
-def holidayCalendar(fromYear, toYear, holidayNameToHoliday=HOLIDAY_NAME_TO_HOLIDAY):
+def holidayCalendar(fromYear, toYear, holidayNameToHoliday=HOLIDAY_NAME_TO_HOLIDAY, observed=False):
 	"""
 	Returns a business holiday calendar from one year to another (inclusive).
 
 	:param fromYear: int
 	:param toYear: int
 	:param holidayNameToHoliday: collections.OrderedDict of name to holiday function
+	:param observed: bool Calculate observed holidays for those that fall on weekends
 	:return: datetime.datetime
 	"""
 	holidays = []
 	for year in range(fromYear, toYear + 1):
 		for name in holidayNameToHoliday:
 			holiday = holidayNameToHoliday[name]
-			holidays.append( (holiday(year), name) )
+			date = holiday(year)
+
+			#Adjust holidays falling on weekends to their observed date
+			if observed and date.weekday() >= SATURDAY:
+				#Subtract a day on Saturday, add a day on Sunday
+				if date.weekday() == SATURDAY:
+					date -= DAY
+				else:
+					date += DAY
+
+				name += ' (Observed)'
+
+			holidays.append( (date, name) )
 
 	return [h for h in holidays if h[0] is not None]
 

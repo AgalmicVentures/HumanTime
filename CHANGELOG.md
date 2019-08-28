@@ -7,6 +7,7 @@
 - Recurrence rules (`for d in Recurrence('next Thanksgiving', count=10): ...`).
 ### Changed
 - Correct handling of `this day / hour / minute / second`.
+- Add optional observance rule for holiday calendar generation.
 
 ## [0.1.3] - 2019-06-14
 ### Added
