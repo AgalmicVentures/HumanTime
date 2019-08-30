@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.1.4
+## [0.1.4] - 2019-08-30
 ### Added
 - More numbers (`thousand`), holiday aliases (`holy day`), and more prepositions.
 - More abbreviations (`tmrw`, `yda`, etc.).
@@ -41,6 +41,7 @@
 		- `next` / `last` / etc. `<UNIT>` / `<DAY OF WEEK>` / `<MONTH>` / etc.
 		- `<TIME> <TIME OF DAY AM / PM>`
 
+[0.1.4]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.3...0.1.4
 [0.1.3]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.0...0.1.2
 [0.1.1]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.0...0.1.1
