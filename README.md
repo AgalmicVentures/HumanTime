@@ -78,6 +78,23 @@ Simple numbers (those necessary for parsing times) can also be parsed separately
 	>>> HumanTime.parseNumber('45')
 	45
 
+### Tools
+Common actions are packaged as CLI tools and can be found in the `HumanTime.Tools` module.
+
+#### `GenerateHolidayCalendar`
+Generates a holiday calendar CSV with optional from and to years, headers, and observance rules.
+
+	> python3 -m HumanTime.Tools.GenerateHolidayCalendar -f 2020 -t 2021 -o
+	Date,Country,Name
+	2020-01-01,US,New Year's Day
+	2020-01-20,US,Martin Luther King Jr. Day
+	2020-02-17,US,Presidents' Day
+	2020-04-10,US,Good Friday
+	2020-05-25,US,Memorial Day
+	2020-07-03,US,Independence Day (Observed)
+	2020-09-07,US,Labor Day
+	...
+
 ## Development
 
 ### Unit Tests

@@ -32,12 +32,20 @@ before_script:
 
 stages:
   - unit_test
+  - smoke_test
   - deploy
 
 unit_test_job:
   stage: unit_test
   script:
     - python3 -m unittest discover
+  only:
+    - master
+
+smoke_test_generate_holiday_calendar_job:
+  stage: smoke_test
+  script:
+    - python3 -m HumanTime.Tools.GenerateHolidayCalendar
   only:
     - master
 
