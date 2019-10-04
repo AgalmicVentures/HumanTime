@@ -316,6 +316,11 @@ KEYWORDS2 = {
 }
 KEYWORDS2.update(HOLIDAY2_ON_OR_AFTER)
 
+ANNUAL_KEYWORDS = {
+}
+ANNUAL_KEYWORDS.update(MONTH_ON_OR_AFTER)
+ANNUAL_KEYWORDS.update(HOLIDAY_ON_OR_AFTER)
+
 PREPOSITION_SIGNS = {
 	'after': 1,
 	'before': -1,
@@ -358,6 +363,15 @@ def parseTimeTokens(ts, t=None):
 		keyword = KEYWORDS2.get(token)
 		if keyword is not None:
 			return keyword(t=t)
+
+		#<KEYWORD> <YEAR>
+		keyword = ANNUAL_KEYWORDS.get(ts[0])
+		if keyword is not None:
+			try:
+				year = int(ts[1])
+				return keyword(datetime.datetime(year, 1, 1))
+			except ValueError:
+				pass
 
 	#Articles
 	if ts[0] in {'a', 'an', 'the'}:

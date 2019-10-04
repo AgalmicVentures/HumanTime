@@ -24,6 +24,7 @@ Sidestep tedious and error-prone code in favor of a simple, English-based DSL fo
 	2019-06-16 00:00:00.000000 | 1 month after Thurs after 2019-5-9
 	2019-07-05 00:00:00.000000 | business day after 2019-7-3
 	2019-07-08 00:00:00.000000 | couple bus days after 2019-7-3
+	2021-04-04 00:00:00.000000 | Easter 2021
 
 ## Installation
 To install, simply use `pip`:

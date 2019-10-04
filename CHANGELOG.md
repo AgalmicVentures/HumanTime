@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.5
+### Added
+- Annual keywords (`May 2010`, `Easter 2021`)
+
 ## [0.1.4] - 2019-08-30
 ### Added
 - More numbers (`thousand`), holiday aliases (`holy day`), and more prepositions.
