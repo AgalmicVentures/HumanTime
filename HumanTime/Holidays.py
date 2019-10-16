@@ -221,6 +221,8 @@ def holidayCalendar(fromYear, toYear, holidayNameToHoliday=HOLIDAY_NAME_TO_HOLID
 		for name in holidayNameToHoliday:
 			holiday = holidayNameToHoliday[name]
 			date = holiday(year)
+			if date is None:
+				continue
 
 			#Adjust holidays falling on weekends to their observed date
 			if observed and date.weekday() >= SATURDAY:
