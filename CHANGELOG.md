@@ -1,8 +1,10 @@
 # Change Log
 
-## 0.1.5
+## [0.1.5] - 2019-10-16
 ### Added
-- Annual keywords (`May 2010`, `Easter 2021`)
+- Annual keywords (`May 2010`, `Easter 2021`).
+### Changed
+- Fix bug in holiday calendar generation when holiday does not occur and observed flag is True.
 
 ## [0.1.4] - 2019-08-30
 ### Added
@@ -45,6 +47,7 @@
 		- `next` / `last` / etc. `<UNIT>` / `<DAY OF WEEK>` / `<MONTH>` / etc.
 		- `<TIME> <TIME OF DAY AM / PM>`
 
+[0.1.5]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.3...0.1.4
 [0.1.3]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.0...0.1.2
