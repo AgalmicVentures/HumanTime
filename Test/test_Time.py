@@ -33,6 +33,7 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTimeOfDay('1:30'), datetime.time(1, 30))
 		self.assertEqual(Time.parseTimeOfDay('1:30PM'), datetime.time(13, 30))
 		self.assertEqual(Time.parseTimeOfDay('2:30:13'), datetime.time(2, 30, 13))
+		self.assertEqual(Time.parseTimeOfDay('2:30:13PM'), datetime.time(14, 30, 13))
 
 	def test_paseTimestamp(self):
 		self.assertEqual(Time.parseTimestamp('2019-04-02'), datetime.datetime(2019, 4, 2))

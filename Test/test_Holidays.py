@@ -204,6 +204,9 @@ class HolidaysTest(unittest.TestCase):
 		#Sorted?
 		h = None
 		for holiday, name in hs:
+			self.assertGreater(len(name), 0)
+			self.assertTrue(name[0].isupper())
+
 			if h is not None:
 				self.assertGreater(holiday, h)
 			h = holiday
@@ -219,6 +222,9 @@ class HolidaysTest(unittest.TestCase):
 		#Sorted?
 		h = None
 		for holiday, name in hs:
+			self.assertGreater(len(name), 0)
+			self.assertTrue(name[0].isupper())
+
 			if h is not None:
 				self.assertGreater(holiday, h)
 			h = holiday
