@@ -228,3 +228,21 @@ class HolidaysTest(unittest.TestCase):
 			if h is not None:
 				self.assertGreater(holiday, h)
 			h = holiday
+
+	def test_holidayCalendar_CA(self):
+		hs = Holidays.holidayCalendar(2015, 2020, holidays=Holidays.CA_HOLIDAYS)
+
+		#Spot check
+		self.assertGreaterEqual(len(hs), 30)
+		self.assertEqual(hs[0][0].year, 2015)
+		self.assertEqual(hs[-1][0].year, 2020)
+
+		#Sorted?
+		h = None
+		for holiday, name in hs:
+			self.assertGreater(len(name), 0)
+			self.assertTrue(name[0].isupper())
+
+			if h is not None:
+				self.assertGreater(holiday, h)
+			h = holiday

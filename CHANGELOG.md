@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.1.6
+### Added
+- Support holiday calendars from different countries, starting with Canada.
 ### Changed
 - Simplify naming of parameters to holiday calendar generation.
 

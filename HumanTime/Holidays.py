@@ -118,6 +118,15 @@ def memorialDay(year):
 		#Last Monday in May
 		return dayOfWeekOnOrBefore(datetime.datetime(year, 5, 31), MONDAY)
 
+def canadaDay(year):
+	"""
+	Returns the date of Canada Day in a given year.
+
+	:param year: int
+	:return: datetime.datetime
+	"""
+	return datetime.datetime(year, 7, 1)
+
 def independenceDay(year):
 	"""
 	Returns the date of Indepdence Day in a given year.
@@ -192,7 +201,15 @@ def christmas(year):
 	"""
 	return datetime.datetime(year, 12, 25)
 
-HOLIDAYS = collections.OrderedDict([
+CA_HOLIDAYS = collections.OrderedDict([
+	("New Year's Day", newYearsDay),
+	('Good Friday', goodFriday),
+	('Canada Day', canadaDay),
+	('Labor Day', laborDay),
+	('Christmas', christmas),
+])
+
+US_HOLIDAYS = collections.OrderedDict([
 	("New Year's Day", newYearsDay),
 	('Martin Luther King Jr. Day', martinLutherKingJrDay),
 	("Presidents' Day", presidentsDay),
@@ -205,6 +222,14 @@ HOLIDAYS = collections.OrderedDict([
 	('Thanksgiving', thanksgiving),
 	('Christmas', christmas),
 ])
+
+COUNTRY_TO_HOLIDAYS = {
+	'CA': CA_HOLIDAYS,
+	'US': US_HOLIDAYS,
+}
+
+#The default holiday calendar may be adjusted by altering this value
+HOLIDAYS = US_HOLIDAYS
 
 def holidayCalendar(fromYear, toYear, holidays=HOLIDAYS, observed=False):
 	"""
