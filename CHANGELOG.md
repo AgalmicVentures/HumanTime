@@ -1,5 +1,8 @@
 # Change Log
 
+### Changed
+- Simplify naming of parameters to holiday calendar generation.
+
 ## [0.1.5] - 2019-10-16
 ### Added
 - Annual keywords (`May 2010`, `Easter 2021`).

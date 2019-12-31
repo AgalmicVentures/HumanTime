@@ -192,7 +192,7 @@ def christmas(year):
 	"""
 	return datetime.datetime(year, 12, 25)
 
-HOLIDAY_NAME_TO_HOLIDAY = collections.OrderedDict([
+HOLIDAYS = collections.OrderedDict([
 	("New Year's Day", newYearsDay),
 	('Martin Luther King Jr. Day', martinLutherKingJrDay),
 	("Presidents' Day", presidentsDay),
@@ -206,20 +206,20 @@ HOLIDAY_NAME_TO_HOLIDAY = collections.OrderedDict([
 	('Christmas', christmas),
 ])
 
-def holidayCalendar(fromYear, toYear, holidayNameToHoliday=HOLIDAY_NAME_TO_HOLIDAY, observed=False):
+def holidayCalendar(fromYear, toYear, holidays=HOLIDAYS, observed=False):
 	"""
 	Returns a business holiday calendar from one year to another (inclusive).
 
 	:param fromYear: int
 	:param toYear: int
-	:param holidayNameToHoliday: collections.OrderedDict of name to holiday function
+	:param holidays: collections.OrderedDict of name to holiday function
 	:param observed: bool Calculate observed holidays for those that fall on weekends
 	:return: datetime.datetime
 	"""
-	holidays = []
+	calendar = []
 	for year in range(fromYear, toYear + 1):
-		for name in holidayNameToHoliday:
-			holiday = holidayNameToHoliday[name]
+		for name in holidays:
+			holiday = holidays[name]
 			date = holiday(year)
 			if date is None:
 				continue
@@ -234,9 +234,9 @@ def holidayCalendar(fromYear, toYear, holidayNameToHoliday=HOLIDAY_NAME_TO_HOLID
 
 				name += ' (Observed)'
 
-			holidays.append( (date, name) )
+			calendar.append( (date, name) )
 
-	return [h for h in holidays if h[0] is not None]
+	return [h for h in calendar if h[0] is not None]
 
 #The holidays used to compute business days
 HOLIDAY_CALENDAR = holidayCalendar(1900, 2100)
