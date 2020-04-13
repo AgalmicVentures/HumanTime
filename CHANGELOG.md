@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.1.6
+## [0.1.6] - 2020-04-13
 ### Added
 - Support for international holiday calendars, starting with Canada.
 - Support for concatenated durations: '3min', '4wks', etc.
@@ -54,6 +54,7 @@
 		- `next` / `last` / etc. `<UNIT>` / `<DAY OF WEEK>` / `<MONTH>` / etc.
 		- `<TIME> <TIME OF DAY AM / PM>`
 
+[0.1.6]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.5...0.1.6
 [0.1.5]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.3...0.1.4
 [0.1.3]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.2...0.1.3

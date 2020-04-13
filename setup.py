@@ -26,10 +26,10 @@ with open('README.md', 'r') as readmeFile:
 
 setuptools.setup(
     name='HumanTime',
-    version='0.1.5',
+    version='0.1.6',
     author='Ian Hutchinson',
     author_email='ihutchinson@agalmicventures.com',
-    description='Time for humans in Python',
+    description='Time for Humans',
     long_description=readme,
     long_description_content_type='text/markdown',
     url='https://github.com/AgalmicVentures/HumanTime',
