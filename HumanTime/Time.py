@@ -433,8 +433,13 @@ def parseTimeTokens(ts, t=None):
 				return t1
 
 		#Otherwise, single token units
-		unit = durationTokens[-1]
-		count = parseNumber(ts[0]) if len(durationTokens) > 1 else 1
+		m = None if len(durationTokens) != 1 else  re.match('^([0-9.]*|[-][0-9.]+)([a-z]+)$', durationTokens[0])
+		if m:
+			rawCount, unit = m.groups()
+			count = 1 if rawCount == '' else int(rawCount)
+		else:
+			unit = durationTokens[-1]
+			count = parseNumber(ts[0]) if len(durationTokens) > 1 else 1
 
 		#First, handle special units that require more than simple addition --
 		#weekdays, days of the week, months, years.

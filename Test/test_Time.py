@@ -148,6 +148,9 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('1 year after 2019-2-1'), datetime.datetime(2020, 2, 1))
 		self.assertEqual(Time.parseTime('12 months after 2019-2-1'), datetime.datetime(2020, 2, 1))
 
+		self.assertEqual(Time.parseTime('1d after 2019-2-1'), datetime.datetime(2019, 2, 2))
+		self.assertEqual(Time.parseTime('4wk after 2019-2-1'), datetime.datetime(2019, 3, 1))
+
 		self.assertEqual(Time.parseTime('1 year before 2020-2-28'), datetime.datetime(2019, 2, 28))
 		self.assertEqual(Time.parseTime('1 year after 2020-2-28'), datetime.datetime(2021, 2, 28))
 		self.assertEqual(Time.parseTime('12 months after 2020-2-28'), datetime.datetime(2021, 2, 28))

@@ -20,6 +20,7 @@
 # SOFTWARE.
 
 import datetime
+import re
 
 from HumanTime.Numbers import parseNumber
 from HumanTime.Utility import tokenize
@@ -65,11 +66,17 @@ def parseDurationTokens(ts):
 	if n == 0:
 		raise ValueError('Invalid duration string - no tokens')
 	elif n == 1:
-		try:
-			unit = UNITS[ts[0]]
-			return unit
-		except KeyError:
-			pass #Try the next one
+		m = re.match('^([0-9.]*|[-][0-9.]+)([a-z]+)$', ts[0])
+		if m:
+			rawCount, rawUnit = m.groups()
+			try:
+				count = 1 if rawCount == '' else int(rawCount)
+				unit = UNITS[rawUnit]
+				return count * unit
+			except KeyError:
+				pass #Try the next one
+			except ValueError:
+				pass #Try the next one
 	elif n == 2:
 		try:
 			count = parseNumber(ts[0])
@@ -79,7 +86,7 @@ def parseDurationTokens(ts):
 			pass #Try the next one
 		except ValueError:
 			pass #Try the next one
-	raise ValueError('Invalid duration string')
+	raise ValueError('Invalid duration string' + str(ts))
 
 def parseDuration(s):
 	"""

@@ -44,6 +44,13 @@ class DurationsTest(unittest.TestCase):
 		with self.assertRaises(ValueError):
 			Durations.parseDuration('asdf')
 
+	def test_parseDuration_concatenated(self):
+		self.assertEqual(Durations.parseDuration('3min'), datetime.timedelta(seconds=180))
+		self.assertEqual(Durations.parseDuration('180s'), datetime.timedelta(seconds=180))
+
+		self.assertEqual(Durations.parseDuration('3d'), datetime.timedelta(days=3))
+		self.assertEqual(Durations.parseDuration('72h'), datetime.timedelta(days=3))
+
 	def test_parseDuration_ordinals(self):
 		self.assertEqual(Durations.parseDuration('3 minutes'), datetime.timedelta(seconds=180))
 		self.assertEqual(Durations.parseDuration('180 seconds'), datetime.timedelta(seconds=180))

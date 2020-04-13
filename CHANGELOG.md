@@ -2,7 +2,8 @@
 
 ## 0.1.6
 ### Added
-- Support holiday calendars from different countries, starting with Canada.
+- Support for international holiday calendars, starting with Canada.
+- Support for concatenated durations: '3min', '4wks', etc.
 ### Changed
 - Simplify naming of parameters to holiday calendar generation.
 
