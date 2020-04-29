@@ -220,7 +220,7 @@ class TimeTest(unittest.TestCase):
 		d = Time.parseTime('may')
 		self.assertEqual(d.month, 5)
 
-	def test_parseTime_weekdayOffsets(self):
+	def test_parseTime_dayOfWeekOffsets(self):
 		self.assertEqual(Time.parseTime('Monday after 2019-5-5'), datetime.datetime(2019, 5, 6))
 		self.assertEqual(Time.parseTime('Monday after 2019-5-6'), datetime.datetime(2019, 5, 13))
 		self.assertEqual(Time.parseTime('2 Mondays after 2019-5-5'), datetime.datetime(2019, 5, 13))
@@ -266,7 +266,7 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('2 months ago', t=t), datetime.datetime(2019, 3, 6, 13, 30))
 		self.assertEqual(Time.parseTime('three years ago', t=t), datetime.datetime(2016, 5, 6, 13, 30))
 
-	def test_parseTime_nextLast_weekday(self):
+	def test_parseTime_nextLast_dayOfWeek(self):
 		t = datetime.datetime(2019, 5, 8, 13, 30)
 
 		#Most days of the week result in only two (2) distinct dates...
@@ -280,7 +280,7 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('this Weds', t=t), datetime.datetime(2019, 5, 8))
 		self.assertEqual(Time.parseTime('next Weds', t=t), datetime.datetime(2019, 5, 15))
 
-	def test_parseTime_nextLast_weekday_atTime(self):
+	def test_parseTime_nextLast_dayOfWeek_atTime(self):
 		t = datetime.datetime(2019, 5, 8, 13, 30)
 
 		#Most days of the week result in only two (2) distinct dates...

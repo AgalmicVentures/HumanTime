@@ -371,7 +371,7 @@ def parseTimeTokens(ts, t=None):
 				year = int(ts[1])
 				return keyword(datetime.datetime(year, 1, 1))
 			except ValueError:
-				pass
+				pass #Not this, move on
 
 	#Articles
 	if ts[0] in {'a', 'an', 'the'}:
@@ -541,7 +541,7 @@ class Recurrence(object):
 
 	def __next__(self):
 		if self._countRemaining <= 0:
-			raise StopIteration()
+			return
 		elif self._countRemaining is not None:
 			self._countRemaining -= 1
 
