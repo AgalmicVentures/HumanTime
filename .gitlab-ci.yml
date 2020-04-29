@@ -31,9 +31,17 @@ before_script:
   - pip3 install -r requirements.txt
 
 stages:
+  - lint
   - unit_test
   - smoke_test
   - deploy
+
+generic_lint_job:
+  stage: lint
+  script:
+    - $LINT_COMMAND
+  only:
+    - master
 
 unit_test_job:
   stage: unit_test
