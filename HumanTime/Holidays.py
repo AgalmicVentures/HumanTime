@@ -19,7 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-#NOTE: Currently this is US holidays only.
+#NOTE: Currently this is US and CA holidays only.
 
 import collections
 import datetime
@@ -229,9 +229,9 @@ COUNTRY_TO_HOLIDAYS = {
 }
 
 #The default holiday calendar may be adjusted by altering this value
-HOLIDAYS = US_HOLIDAYS
+DEFAULT_HOLIDAYS = US_HOLIDAYS
 
-def holidayCalendar(fromYear, toYear, holidays=HOLIDAYS, observed=False):
+def holidayCalendar(fromYear, toYear, holidays=DEFAULT_HOLIDAYS, observed=False):
 	"""
 	Returns a business holiday calendar from one year to another (inclusive).
 
@@ -250,6 +250,7 @@ def holidayCalendar(fromYear, toYear, holidays=HOLIDAYS, observed=False):
 				continue
 
 			#Adjust holidays falling on weekends to their observed date
+			#TODO: Allow other observance rules
 			if observed and date.weekday() >= SATURDAY:
 				#Subtract a day on Saturday, add a day on Sunday
 				if date.weekday() == SATURDAY:
@@ -267,26 +268,32 @@ def holidayCalendar(fromYear, toYear, holidays=HOLIDAYS, observed=False):
 HOLIDAY_CALENDAR = holidayCalendar(1900, 2100)
 HOLIDAYS = {h[0] for h in HOLIDAY_CALENDAR}
 
-def businessDayOnOrAfter(t, holidays=HOLIDAYS):
+def businessDayOnOrAfter(t, holidays=None):
 	"""
 	Returns the first business day on or after a given time.
 
 	:param t: datetime.datetime
 	:return: datetime.datetime
 	"""
+	if holidays is None:
+		holidays = HOLIDAYS
+
 	t = today(t)
-	while t.weekday() >= SATURDAY or t in HOLIDAYS:
+	while t.weekday() >= SATURDAY or t in holidays:
 		t += datetime.timedelta(days=1)
 	return t
 
-def businessDayOnOrBefore(t, holidays=HOLIDAYS):
+def businessDayOnOrBefore(t, holidays=None):
 	"""
 	Returns the first business day on or before a given time.
 
 	:param t: datetime.datetime
 	:return: datetime.datetime
 	"""
+	if holidays is None:
+		holidays = HOLIDAYS
+
 	t = today(t)
-	while t.weekday() >= SATURDAY or t in HOLIDAYS:
+	while t.weekday() >= SATURDAY or t in holidays:
 		t -= datetime.timedelta(days=1)
 	return t
