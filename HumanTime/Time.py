@@ -541,7 +541,7 @@ class Recurrence(object):
 
 	def __next__(self):
 		if self._countRemaining <= 0:
-			return
+			raise StopIteration()
 		elif self._countRemaining is not None:
 			self._countRemaining -= 1
 
