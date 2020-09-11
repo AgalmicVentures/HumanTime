@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.1.7
+## [0.1.7] - 2020-09-11
 ### Added
 - Helpers for weekdays.
 ### Changed
@@ -60,6 +60,7 @@
 		- `next` / `last` / etc. `<UNIT>` / `<DAY OF WEEK>` / `<MONTH>` / etc.
 		- `<TIME> <TIME OF DAY AM / PM>`
 
+[0.1.7]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.6...0.1.7
 [0.1.6]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.5...0.1.6
 [0.1.5]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.3...0.1.4
