@@ -39,3 +39,15 @@ class WeekdaysTest(unittest.TestCase):
 	def test_dayOfWeekOnOrBefore(self):
 		self.assertEqual(Weekdays.dayOfWeekOnOrBefore(datetime.datetime(2019, 5, 6), Weekdays.SUNDAY), datetime.datetime(2019, 5, 5))
 		self.assertEqual(Weekdays.dayOfWeekOnOrBefore(datetime.datetime(2019, 5, 6), Weekdays.MONDAY), datetime.datetime(2019, 5, 6))
+
+	def test_isWeekday(self):
+		self.assertTrue(Weekdays.isWeekday(datetime.date(2018, 7, 13)))
+		self.assertFalse(Weekdays.isWeekday(datetime.date(2018, 7, 14)))
+		self.assertFalse(Weekdays.isWeekday(datetime.date(2018, 7, 15)))
+		self.assertTrue(Weekdays.isWeekday(datetime.date(2018, 7, 16)))
+
+	def test_isWeekend(self):
+		self.assertFalse(Weekdays.isWeekend(datetime.date(2018, 7, 13)))
+		self.assertTrue(Weekdays.isWeekend(datetime.date(2018, 7, 14)))
+		self.assertTrue(Weekdays.isWeekend(datetime.date(2018, 7, 15)))
+		self.assertFalse(Weekdays.isWeekend(datetime.date(2018, 7, 16)))

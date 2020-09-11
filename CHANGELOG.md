@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.1.7
+### Added
+- Helpers for weekdays.
+### Changed
+- Fix bugs in holiday calendars.
+
 ## [0.1.6] - 2020-04-13
 ### Added
 - Support for international holiday calendars, starting with Canada.

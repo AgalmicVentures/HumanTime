@@ -62,6 +62,28 @@ def dayOfWeekOnOrBefore(t, dayOfWeek):
 		t -= datetime.timedelta(days=1)
 	return t
 
+def isWeekday(t):
+	"""
+	Returns True if the date is a weekday.
+
+	:param t: datetime.datetime or datetime.date
+	:return: bool
+	"""
+	if t is None:
+		t = today()
+	return t.weekday() < SATURDAY
+
+def isWeekend(t):
+	"""
+	Returns True if the date is a weekend.
+
+	:param t: datetime.datetime or datetime.date
+	:return: bool
+	"""
+	if t is None:
+		t = today()
+	return t.weekday() >= SATURDAY
+
 def weekdayOnOrAfter(t):
 	"""
 	Returns the first weekday on or after a given time.
