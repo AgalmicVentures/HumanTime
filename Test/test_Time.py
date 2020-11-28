@@ -299,6 +299,10 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('this May', t=t), datetime.datetime(2019, 5, 1))
 		self.assertEqual(Time.parseTime('next May', t=t), datetime.datetime(2020, 5, 1))
 
+		#This case on this day caught an overlooked missing case:
+		#The modulus operator brought the month between 0 and 11, not 1 and 12
+		self.assertEqual(Time.parseTime('next April', t=datetime.datetime(2020, 11, 28)), datetime.datetime(2021, 4, 1))
+
 	def test_parseTime_nextLast_weekday(self):
 		t = datetime.datetime(2019, 5, 11, 13, 30)
 		self.assertEqual(Time.parseTime('last weekday', t=t), datetime.datetime(2019, 5, 10))

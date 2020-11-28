@@ -459,7 +459,7 @@ def parseTimeTokens(ts, t=None):
 		month = (MONTH_ON_OR_BEFORE if sign == -1 else MONTH_ON_OR_AFTER).get(unit)
 		if month is not None:
 			endMonth = 12 if sign == 1 else 1
-			t1 = datetime.datetime(t0.year + (sign if t0.month == endMonth else 0), (t0.month + sign) % 12, 1)
+			t1 = datetime.datetime(t0.year + (sign if t0.month == endMonth else 0), (t0.month + sign - 1) % 12 + 1, 1)
 			t2 = month(t=t1)
 			return t2.replace(year=t2.year + sign * (count - 1))
 
