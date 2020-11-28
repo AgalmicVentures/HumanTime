@@ -1,8 +1,10 @@
 # Change Log
 
 ## 0.1.8
+### Added
+- Other Canadian holidays: Victoria Day, Thanksgiving, Rememberance Day.
 ### Changed
-- Fix name of Labour Day for Canada.
+- Fix name of Labour Day in Canada.
 - Improve accuracy of Labor Day (`None` before 1984).
 
 ## [0.1.7] - 2020-09-11
@@ -29,9 +31,9 @@
 - More numbers (`thousand`), holiday aliases (`holy day`), and more prepositions.
 - More abbreviations (`tmrw`, `yda`, etc.).
 - Recurrence rules (`for d in Recurrence('next Thanksgiving', count=10): ...`).
+- Optional observance rule for holiday calendar generation.
 ### Changed
 - Correct handling of `this day / hour / minute / second`.
-- Add optional observance rule for holiday calendar generation.
 
 ## [0.1.3] - 2019-06-14
 ### Added

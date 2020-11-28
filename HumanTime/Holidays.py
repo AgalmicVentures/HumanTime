@@ -103,6 +103,21 @@ def easter(year):
 	day = (h + l - 7 * m + 114) % 31 + 1
 	return datetime.datetime(year, month, day)
 
+def victoriaDay(year):
+	"""
+	Returns the date of Victoria Day (CA) in a given year.
+
+	:param year: int
+	:return: datetime.datetime or None
+	"""
+	if year < 1901:
+		return None
+	elif year < 1971:
+		return None #TODO: Be more accurate with a table https://en.wikipedia.org/wiki/Victoria_Day
+	else:
+		#Last Monday before May 25th (so on or before the 24th)
+		return dayOfWeekOnOrBefore(datetime.datetime(year, 5, 24), MONDAY)
+
 def memorialDay(year):
 	"""
 	Returns the date of Labor Day in a given year.
@@ -186,9 +201,23 @@ def veteransDay(year):
 
 	return datetime.datetime(year, 11, 11)
 
+def rememberanceDay(year):
+	"""
+	Returns the date of Rememberance Day (CA) in a given year.
+
+	The main difference between this and Veteran's Day in the US is the starting year.
+
+	:param year: int
+	:return: datetime.datetime or None
+	"""
+	if year < 1931:
+		return None
+
+	return datetime.datetime(year, 11, 11)
+
 def thanksgiving(year):
 	"""
-	Returns the date of Thanksgiving in a given year.
+	Returns the date of Thanksgiving (US) in a given year.
 
 	:param year: int
 	:return: datetime.datetime
@@ -196,6 +225,21 @@ def thanksgiving(year):
 	#4th Thurs in Nov
 	firstThursday = dayOfWeekOnOrAfter(datetime.datetime(year, 11, 1), THURSDAY)
 	return firstThursday + datetime.timedelta(days=21)
+
+def thanksgivingCA(year):
+	"""
+	Returns the date of Thanksgiving (CA) in a given year.
+
+	:param year: int
+	:return: datetime.datetime
+	"""
+	if year < 1957:
+		#TODO: Be accurate before 1957. Requires a table, see https://en.wikipedia.org/wiki/Thanksgiving_(Canada)
+		return None
+
+	#2nd Mon in Oct
+	firstMonday = dayOfWeekOnOrAfter(datetime.datetime(year, 10, 1), MONDAY)
+	return firstMonday + datetime.timedelta(days=7)
 
 def christmas(year):
 	"""
@@ -209,9 +253,13 @@ def christmas(year):
 CA_HOLIDAYS = collections.OrderedDict([
 	("New Year's Day", newYearsDay),
 	('Good Friday', goodFriday),
+	('Victoria Day', victoriaDay),
 	('Canada Day', canadaDay),
 	('Labour Day', laborDay),
+	('Thanksgiving', thanksgivingCA),
+	('Rememberance Day', rememberanceDay),
 	('Christmas', christmas),
+	#TODO: Boxing day, but with observance rules it may need to move 2 days, e.g. in 2010
 ])
 
 US_HOLIDAYS = collections.OrderedDict([

@@ -19,6 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import datetime
 import unittest
 
 from HumanTime import Holidays, Weekdays
@@ -133,6 +134,10 @@ class HolidaysTest(unittest.TestCase):
 			self.assertTrue(d.month == 3 or d.month == 4)
 			self.assertEqual(d.weekday(), Weekdays.SUNDAY)
 
+	def test_victoriaDay(self):
+		self.assertEqual(Holidays.victoriaDay(2020), datetime.datetime(2020, 5, 18))
+		self.assertEqual(Holidays.victoriaDay(2021), datetime.datetime(2021, 5, 24))
+
 	def test_memorialDay(self):
 		for year in YEARS:
 			d = Holidays.memorialDay(year)
@@ -173,6 +178,13 @@ class HolidaysTest(unittest.TestCase):
 	def test_veteransDay(self):
 		for year in YEARS:
 			d = Holidays.veteransDay(year)
+			self.assertEqual(d.year, year)
+			self.assertEqual(d.month, 11)
+			self.assertEqual(d.day, 11)
+
+	def test_rememberanceDay(self):
+		for year in YEARS:
+			d = Holidays.rememberanceDay(year)
 			self.assertEqual(d.year, year)
 			self.assertEqual(d.month, 11)
 			self.assertEqual(d.day, 11)
