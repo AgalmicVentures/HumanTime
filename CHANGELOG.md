@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.1.8
+### Changed
+- Fix name of Labour Day for Canada.
+- Improve accuracy of Labor Day (`None` before 1984).
+
 ## [0.1.7] - 2020-09-11
 ### Added
 - Helpers for weekdays.

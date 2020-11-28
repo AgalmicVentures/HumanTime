@@ -143,6 +143,11 @@ def laborDay(year):
 	:param year: int
 	:return: datetime.datetime
 	"""
+	#Labor day was first recognized at the federal level in the US,
+	#and in Canada, in 1984
+	if year < 1894:
+		return None
+
 	#1st Monday in Sep
 	return dayOfWeekOnOrAfter(datetime.datetime(year, 9, 1), MONDAY)
 
@@ -205,7 +210,7 @@ CA_HOLIDAYS = collections.OrderedDict([
 	("New Year's Day", newYearsDay),
 	('Good Friday', goodFriday),
 	('Canada Day', canadaDay),
-	('Labor Day', laborDay),
+	('Labour Day', laborDay),
 	('Christmas', christmas),
 ])
 
