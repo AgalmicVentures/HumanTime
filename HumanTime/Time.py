@@ -270,11 +270,16 @@ for holiday, names0, names1 in [
 		(martinLutherKingJrDay, ['mlk'], ['day', 'days']),
 		(presidentsDay, ['presidents', "presidents'", "president's"], ['day', 'days']),
 		(goodFriday, ['good', 'holy'], ['friday', 'fridays']),
+		(victoriaDay, ['victoria'], ['day', 'days']),
+		(easter, ['easter'], ['sun', 'sunday', 'sundays']),
 		(memorialDay, ['memorial'], ['day', 'days']),
 		(independenceDay, ['indep', 'indep.', 'independence'], ['day', 'days']),
 		(laborDay, ['labor'], ['day', 'days']),
 		(columbusDay, ['columbus'], ['day', 'days']),
 		(veteransDay, ['veterans', "veterans'", "veteran's"], ['day', 'days']),
+		(rememberanceDay, ['rememberance'], ['day', 'days']),
+		(thanksgiving, ['thanksgiving'], ['day', 'days']),
+		(christmas, ['christmas', 'x-mas', 'xmas'], ['day', 'days']),
 	]:
 	afterFunction = lambda t=None, h=holiday: annualOnOrAfter(t, h) # @suppress
 	beforeFunction = lambda t=None, h=holiday: annualOnOrBefore(t, h) # @suppress

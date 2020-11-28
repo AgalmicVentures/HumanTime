@@ -328,6 +328,7 @@ class TimeTest(unittest.TestCase):
 		self.assertEqual(Time.parseTime('halloween', t=t), datetime.datetime(2019, 10, 31))
 		self.assertEqual(Time.parseTime('xmas', t=t), datetime.datetime(2019, 12, 25))
 		self.assertEqual(Time.parseTime('Easter', t=t), datetime.datetime(2020, 4, 12))
+		self.assertEqual(Time.parseTime('Easter Sunday', t=t), datetime.datetime(2020, 4, 12))
 
 		self.assertEqual(Time.parseTime('last halloween', t=t), datetime.datetime(2018, 10, 31))
 		self.assertEqual(Time.parseTime('last easter', t=t), datetime.datetime(2019, 4, 21))

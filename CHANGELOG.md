@@ -4,6 +4,7 @@
 ### Added
 - Other Canadian holidays: Victoria Day, Thanksgiving, Rememberance Day.
 - Limited UK holiday support.
+- More general parsing of holiday names (e.g. 'Easter Sunday', 'Christmas day').
 ### Changed
 - Fix bug in corner case of 'next April' in certain situations.
 - Fix name of Labour Day in Canada.
