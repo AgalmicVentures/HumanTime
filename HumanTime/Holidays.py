@@ -19,7 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-#NOTE: Currently this is US and CA holidays only.
+#NOTE: Currently this is US and CA, UK holidays only.
 
 import collections
 import datetime
@@ -262,6 +262,14 @@ CA_HOLIDAYS = collections.OrderedDict([
 	#TODO: Boxing day, but with observance rules it may need to move 2 days, e.g. in 2010
 ])
 
+UK_HOLIDAYS = collections.OrderedDict([
+	("New Year's Day", newYearsDay),
+	('Good Friday', goodFriday),
+	#TODO
+	('Christmas', christmas),
+	#TODO: Boxing day, but with observance rules it may need to move 2 days, e.g. in 2010
+])
+
 US_HOLIDAYS = collections.OrderedDict([
 	("New Year's Day", newYearsDay),
 	('Martin Luther King Jr. Day', martinLutherKingJrDay),
@@ -278,6 +286,7 @@ US_HOLIDAYS = collections.OrderedDict([
 
 COUNTRY_TO_HOLIDAYS = {
 	'CA': CA_HOLIDAYS,
+	'UK': UK_HOLIDAYS,
 	'US': US_HOLIDAYS,
 }
 
