@@ -182,9 +182,9 @@ class HolidaysTest(unittest.TestCase):
 			self.assertEqual(d.month, 11)
 			self.assertEqual(d.day, 11)
 
-	def test_rememberanceDay(self):
+	def test_remembranceDay(self):
 		for year in YEARS:
-			d = Holidays.rememberanceDay(year)
+			d = Holidays.remembranceDay(year)
 			self.assertEqual(d.year, year)
 			self.assertEqual(d.month, 11)
 			self.assertEqual(d.day, 11)

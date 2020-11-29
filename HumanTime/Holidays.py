@@ -201,9 +201,9 @@ def veteransDay(year):
 
 	return datetime.datetime(year, 11, 11)
 
-def rememberanceDay(year):
+def remembranceDay(year):
 	"""
-	Returns the date of Rememberance Day (CA) in a given year.
+	Returns the date of Remembrance Day (CA) in a given year.
 
 	The main difference between this and Veteran's Day in the US is the starting year.
 
@@ -257,7 +257,7 @@ CA_HOLIDAYS = collections.OrderedDict([
 	('Canada Day', canadaDay),
 	('Labour Day', laborDay),
 	('Thanksgiving', thanksgivingCA),
-	('Rememberance Day', rememberanceDay),
+	('Remembrance Day', remembranceDay),
 	('Christmas', christmas),
 	#TODO: Boxing day, but with observance rules it may need to move 2 days, e.g. in 2010
 ])

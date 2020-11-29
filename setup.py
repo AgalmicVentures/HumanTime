@@ -26,7 +26,7 @@ with open('README.md', 'r') as readmeFile:
 
 setuptools.setup(
     name='HumanTime',
-    version='0.1.8',
+    version='0.1.9',
     author='Ian Hutchinson',
     author_email='ihutchinson@agalmicventures.com',
     description='Time for Humans',

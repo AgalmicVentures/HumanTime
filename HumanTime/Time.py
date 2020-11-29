@@ -277,7 +277,7 @@ for holiday, names0, names1 in [
 		(laborDay, ['labor'], ['day', 'days']),
 		(columbusDay, ['columbus'], ['day', 'days']),
 		(veteransDay, ['veterans', "veterans'", "veteran's"], ['day', 'days']),
-		(rememberanceDay, ['rememberance'], ['day', 'days']),
+		(remembranceDay, ['remembrance'], ['day', 'days']),
 		(thanksgiving, ['thanksgiving'], ['day', 'days']),
 		(christmas, ['christmas', 'x-mas', 'xmas'], ['day', 'days']),
 	]:

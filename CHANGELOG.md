@@ -1,8 +1,12 @@
 # Change Log
 
+## [0.1.9] - 2020-11-28
+### Changed
+- Fix name of Remembrance Day in Canada.
+
 ## [0.1.8] - 2020-11-28
 ### Added
-- Other Canadian holidays: Victoria Day, Thanksgiving, Rememberance Day.
+- Other Canadian holidays: Victoria Day, Thanksgiving, Remembrance Day.
 - Limited UK holiday support.
 - More general parsing of holiday names (e.g. 'Easter Sunday', 'Christmas day').
 ### Changed
@@ -70,6 +74,7 @@
 		- `next` / `last` / etc. `<UNIT>` / `<DAY OF WEEK>` / `<MONTH>` / etc.
 		- `<TIME> <TIME OF DAY AM / PM>`
 
+[0.1.9]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.8...0.1.9
 [0.1.8]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.7...0.1.8
 [0.1.7]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.6...0.1.7
 [0.1.6]: https://github.com/AgalmicVentures/HumanTime/compare/0.1.5...0.1.6
